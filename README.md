@@ -1,6 +1,6 @@
 # WhatsApp Bot
 
-Bot para WhatsApp com painel web de gerenciamento. Suporte a comandos, auto-replies, grupos, IA e subagentes com ferramentas.
+Bot para WhatsApp multiplataforma compatível com termux, painel web de gerenciamento. Suporte a comandos, auto-replies, grupos, IA e subagentes com ferramentas.
 
 ## Pre-requisitos
 
