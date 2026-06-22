@@ -2,3 +2,5 @@ node_modules/
 .expo/
 auth/
 *.log
+data.json
+ssh-public-key.txt

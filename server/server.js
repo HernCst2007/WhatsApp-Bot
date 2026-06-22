@@ -14,6 +14,7 @@ const {
 const pino = require('pino');
 const { Boom } = require('@hapi/boom');
 const QRCode = require('qrcode');
+const { AgentExecutor } = require('./agents/agent');
 
 const app = express();
 const server = http.createServer(app);
@@ -57,6 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 let sock = null, qrCode = null, connected = false, connectionStatus = 'disconnected';
 let ngrokUrl = null;
 const msgCounters = {};
+let agentExecutor = null;
 
 async function startWhatsApp() {
   try {
@@ -66,6 +68,7 @@ async function startWhatsApp() {
       auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, logger) },
       browser: ['WhatsApp Bot Web', 'Chrome', '4.0.0'],
     });
+    agentExecutor = new AgentExecutor(sock, io);
     sock.ev.on('creds.update', saveCreds);
     sock.ev.on('connection.update', async (update) => {
       const { connection, lastDisconnect, qr } = update;
@@ -182,6 +185,53 @@ async function handleMessage(sock, msg) {
     return;
   }
 
+  if (cmd === 'agent' && data.aiEnabled && data.aiApiKey) {
+    const args = body.slice(data.prefix.length + 6).trim();
+    if (!args) {
+      const agents = agentExecutor ? agentExecutor.getAvailableAgents() : [];
+      const list = agents.map(a => `• *${a.name}* (${a.tools} tools) - ${a.description}`).join('\n');
+      await sock.sendMessage(from, { text: `🤖 *Agentes disponíveis:*\n\n${list}\n\nUse: !agent [nome] [mensagem]` });
+      return;
+    }
+    const spaceIdx = args.indexOf(' ');
+    const agentName = spaceIdx > 0 ? args.slice(0, spaceIdx) : args;
+    const agentMsg = spaceIdx > 0 ? args.slice(spaceIdx + 1).trim() : '';
+
+    if (!agentMsg) {
+      await sock.sendMessage(from, { text: 'Use: !agent [nome] [mensagem]' });
+      return;
+    }
+
+    if (!agentExecutor) {
+      await sock.sendMessage(from, { text: 'Agente não disponível. WhatsApp desconectado.' });
+      return;
+    }
+
+    await sock.sendMessage(from, { text: '🔄 Processando com agente...' });
+    try {
+      const agentDef = agentExecutor.setAgent(from, agentName);
+      const reply = await agentExecutor.run(from, agentMsg, async (messages, toolDefs) => {
+        return await callAIWithTools(data.aiApiKey, data.aiProvider, messages, toolDefs);
+      });
+      await sock.sendMessage(from, { text: reply });
+      io.emit('bot_reply', { to: from, text: reply });
+    } catch (err) {
+      await sock.sendMessage(from, { text: 'Erro no agente: ' + err.message });
+    }
+    return;
+  }
+
+  if (cmd === 'agents') {
+    if (!agentExecutor) {
+      await sock.sendMessage(from, { text: 'Sistema de agentes não disponível.' });
+      return;
+    }
+    const agents = agentExecutor.getAvailableAgents();
+    const list = agents.map(a => `• *${a.name}* - ${a.description}`).join('\n');
+    await sock.sendMessage(from, { text: `🤖 *Agentes OpenCode:*\n\n${list}\n\nUse: !agent [nome] [mensagem]` });
+    return;
+  }
+
   if (isGroup && ['mute','unmute','antilink','welcome','goodbye'].includes(cmd)) {
     try {
       const groupMeta = await sock.groupMetadata(from);
@@ -211,17 +261,19 @@ async function handleAI(sock, from, prompt) {
     if (data.aiProvider === 'openai') {
       reply = await callOpenAI(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     } else if (data.aiProvider === 'gemini') {
-      reply = await callGemini(data.aiApiKey, data.aiPrompt, prompt);
+      reply = await callGemini(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     } else if (data.aiProvider === 'mimo') {
-      reply = await callMiMo(data.aiApiKey, data.aiPrompt, prompt);
+      reply = await callMiMo(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     } else if (data.aiProvider === 'deepseek') {
-      reply = await callDeepSeek(data.aiApiKey, data.aiPrompt, prompt);
+      reply = await callDeepSeek(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     } else if (data.aiProvider === 'claude') {
-      reply = await callClaude(data.aiApiKey, data.aiPrompt, prompt);
+      reply = await callClaude(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     } else if (data.aiProvider === 'groq') {
-      reply = await callGroq(data.aiApiKey, data.aiPrompt, prompt);
+      reply = await callGroq(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     } else if (data.aiProvider === 'together') {
-      reply = await callTogether(data.aiApiKey, data.aiPrompt, prompt);
+      reply = await callTogether(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'nim') {
+      reply = await callNIM(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
     }
 
     await sock.sendMessage(from, { text: reply || 'Erro ao obter resposta da IA.' });
@@ -241,38 +293,55 @@ async function callOpenAI(apiKey, model, systemPrompt, userPrompt) {
   return res.data.choices[0].message.content;
 }
 
-async function callGemini(apiKey, systemPrompt, userPrompt) {
+async function callGemini(apiKey, model, systemPrompt, userPrompt) {
   const axios = require('axios');
-  const res = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
-    contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-  });
-  return res.data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sem resposta';
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/${model || 'gemini-2.0-flash'}:generateContent?key=${apiKey}`, {
+        contents: [{ parts: [{ text: userPrompt }] }],
+        systemInstruction: systemPrompt ? { parts: [{ text: systemPrompt }] } : undefined,
+      });
+      return res.data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sem resposta';
+    } catch (err) {
+      if (err.response?.status === 429) {
+        const msg = err.response?.data?.error?.message || '';
+        const match = msg.match(/retry in ([\d.]+)/);
+        const wait = match ? Math.ceil(parseFloat(match[1])) : 30;
+        if (attempt === 0) {
+          await new Promise(r => setTimeout(r, wait * 1000));
+          continue;
+        }
+        throw new Error(`Quota Gemini excedida. Tente novamente em ${wait}s ou use outra API key.`);
+      }
+      throw err;
+    }
+  }
 }
 
-async function callMiMo(apiKey, systemPrompt, userPrompt) {
+async function callMiMo(apiKey, model, systemPrompt, userPrompt) {
   const axios = require('axios');
   const res = await axios.post('https://api.siliconflow.cn/v1/chat/completions', {
-    model: 'Qwen/MiMo-7B-RL',
+    model: model || 'Qwen/MiMo-7B-RL',
     messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
     max_tokens: 500,
   }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
   return res.data.choices[0].message.content;
 }
 
-async function callDeepSeek(apiKey, systemPrompt, userPrompt) {
+async function callDeepSeek(apiKey, model, systemPrompt, userPrompt) {
   const axios = require('axios');
   const res = await axios.post('https://api.deepseek.com/v1/chat/completions', {
-    model: 'deepseek-chat',
+    model: model || 'deepseek-chat',
     messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
     max_tokens: 500,
   }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
   return res.data.choices[0].message.content;
 }
 
-async function callClaude(apiKey, systemPrompt, userPrompt) {
+async function callClaude(apiKey, model, systemPrompt, userPrompt) {
   const axios = require('axios');
   const res = await axios.post('https://api.anthropic.com/v1/messages', {
-    model: 'claude-3-haiku-20240307',
+    model: model || 'claude-3-haiku-20240307',
     max_tokens: 500,
     system: systemPrompt,
     messages: [{ role: 'user', content: userPrompt }],
@@ -280,24 +349,101 @@ async function callClaude(apiKey, systemPrompt, userPrompt) {
   return res.data.content[0].text;
 }
 
-async function callGroq(apiKey, systemPrompt, userPrompt) {
+async function callGroq(apiKey, model, systemPrompt, userPrompt) {
   const axios = require('axios');
   const res = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
-    model: 'llama-3.3-70b-versatile',
+    model: model || 'llama-3.3-70b-versatile',
     messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
     max_tokens: 500,
   }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
   return res.data.choices[0].message.content;
 }
 
-async function callTogether(apiKey, systemPrompt, userPrompt) {
+async function callTogether(apiKey, model, systemPrompt, userPrompt) {
   const axios = require('axios');
   const res = await axios.post('https://api.together.xyz/v1/chat/completions', {
-    model: 'meta-llama/Meta-Llama-3-8B-Instruct-Turbo',
+    model: model || 'meta-llama/Meta-Llama-3-8B-Instruct-Turbo',
     messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
     max_tokens: 500,
   }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
   return res.data.choices[0].message.content;
+}
+
+async function callNIM(apiKey, model, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://integrate.api.nvidia.com/v1/chat/completions', {
+    model: model || 'meta/llama-3.3-70b-instruct',
+    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+    max_tokens: 500,
+  }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
+  return res.data.choices[0].message.content;
+}
+
+async function callAIWithTools(apiKey, provider, messages, tools) {
+  const axios = require('axios');
+
+  const providers = {
+    openai: { url: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini', auth: `Bearer ${apiKey}` },
+    mimo: { url: 'https://api.siliconflow.cn/v1/chat/completions', model: 'Qwen/MiMo-7B-RL', auth: `Bearer ${apiKey}` },
+    deepseek: { url: 'https://api.deepseek.com/v1/chat/completions', model: 'deepseek-chat', auth: `Bearer ${apiKey}` },
+    groq: { url: 'https://api.groq.com/openai/v1/chat/completions', model: 'llama-3.3-70b-versatile', auth: `Bearer ${apiKey}` },
+    together: { url: 'https://api.together.xyz/v1/chat/completions', model: 'meta-llama/Meta-Llama-3-70B-Instruct-Turbo', auth: `Bearer ${apiKey}` },
+    claude: { url: 'https://api.anthropic.com/v1/messages', model: 'claude-3-haiku-20240307', auth: apiKey },
+    gemini: { url: 'https://generativelanguage.googleapis.com/v1beta', model: 'gemini-pro', auth: apiKey },
+    nim: { url: 'https://integrate.api.nvidia.com/v1/chat/completions', model: 'meta/llama-3.3-70b-instruct', auth: `Bearer ${apiKey}` },
+  };
+
+  const p = providers[provider];
+  if (!p) throw new Error(`Provider '${provider}' não suporta ferramentas`);
+
+  if (provider === 'claude') {
+    const systemMsg = messages.find(m => m.role === 'system');
+    const otherMsgs = messages.filter(m => m.role !== 'system');
+    const claudeTools = tools ? tools.map(t => ({
+      name: t.function.name,
+      description: t.function.description,
+      input_schema: t.function.parameters,
+    })) : [];
+
+    const body = {
+      model: p.model,
+      max_tokens: 2048,
+      system: systemMsg ? systemMsg.content : '',
+      messages: otherMsgs.map(m => {
+        if (m.role === 'tool') return { role: 'user', content: `Tool result (${m.tool_call_id}): ${m.content}` };
+        if (m.tool_calls) return { role: 'assistant', content: null, tool_use: m.tool_calls.map(tc => ({ id: tc.id, name: tc.function.name, input: typeof tc.function.arguments === 'string' ? JSON.parse(tc.function.arguments) : tc.function.arguments })) };
+        return { role: m.role, content: m.content };
+      }),
+    };
+    if (claudeTools.length > 0) body.tools = claudeTools;
+
+    const res = await axios.post(p.url, body, {
+      headers: { 'x-api-key': p.auth, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
+    });
+
+    const block = res.data.content[0];
+    if (block.type === 'tool_use') {
+      return { content: null, tool_calls: [{ id: block.id, type: 'function', function: { name: block.name, arguments: JSON.stringify(block.input) } }] };
+    }
+    return { content: block.text };
+  }
+
+  const body = {
+    model: p.model,
+    messages,
+    max_tokens: 2048,
+  };
+  if (tools && tools.length > 0) {
+    body.tools = tools;
+    body.tool_choice = 'auto';
+  }
+
+  const res = await axios.post(p.url, body, {
+    headers: { 'Authorization': p.auth, 'Content-Type': 'application/json' },
+  });
+
+  const choice = res.data.choices[0];
+  return choice.message;
 }
 
 // --- API Routes ---
@@ -402,6 +548,25 @@ app.post('/commands/clear', (req, res) => {
 });
 
 app.get('/ngrok', (req, res) => res.json({ url: ngrokUrl }));
+
+// --- Agent Routes ---
+app.get('/agents', (req, res) => {
+  if (!agentExecutor) return res.json({ agents: [], error: 'Agent system not initialized' });
+  res.json({ agents: agentExecutor.getAvailableAgents() });
+});
+
+app.get('/agents/status', (req, res) => {
+  res.json({
+    initialized: !!agentExecutor,
+    sessions: agentExecutor ? agentExecutor.sessions.size : 0,
+  });
+});
+
+app.post('/agents/clear/:chatKey', (req, res) => {
+  if (!agentExecutor) return res.json({ success: false });
+  agentExecutor.clearSession(req.params.chatKey);
+  res.json({ success: true });
+});
 app.post('/ngrok/start', async (req, res) => {
   try {
     const { execSync } = require('child_process');

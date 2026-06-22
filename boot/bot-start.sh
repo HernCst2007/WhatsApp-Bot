@@ -1,9 +1,10 @@
 #!/bin/bash
-# Gerenciador do WhatsApp Bot
+# Gerenciador do WhatsApp Bot (Termux)
 
 PROJDIR=~/WhatsApp-Bot
+
 get_ip() {
-  node -e "const os=require('os');for(const n of Object.keys(os.networkInterfaces())){for(const i of os.networkInterfaces()[n])if(i.family==='IPv4'&&!i.internal)console.log(i.address)}" 2>/dev/null | head -1
+  hostname -I 2>/dev/null | awk '{print $1}'
 }
 
 kill_all() {
@@ -15,36 +16,41 @@ kill_all() {
 case "$1" in
   start)
     kill_all
-    cd "$PROJDIR/server" && setsid node server.js < /dev/null > /dev/null 2>&1 &
+    cd "$PROJDIR/server"
+    if [ ! -d "node_modules" ]; then
+      echo "Instalando dependencias..."
+      npm install
+    fi
+    setsid node server.js < /dev/null > /dev/null 2>&1 &
     sleep 2
     IP=$(get_ip)
-    echo "✅ Bot iniciado!"
-    echo "📱 http://${IP}:3000"
+    echo "Bot iniciado!"
+    echo "http://${IP}:3000"
     ;;
   stop)
     kill_all
-    echo "✅ Bot parado!"
+    echo "Bot parado!"
     ;;
   restart)
     kill_all
     cd "$PROJDIR/server" && setsid node server.js < /dev/null > /dev/null 2>&1 &
     sleep 2
-    echo "✅ Bot reiniciado!"
+    echo "Bot reiniciado!"
     ;;
   status)
     if pgrep -f "node server.js" > /dev/null; then
-      echo "🟢 Bot rodando!"
-      echo "📱 http://$(get_ip):3000"
+      echo "Bot rodando!"
+      echo "http://$(get_ip):3000"
     else
-      echo "🔴 Bot parado"
+      echo "Bot parado"
     fi
     ;;
   ip)
-    echo "📱 IP: $(get_ip)"
+    echo "IP: $(get_ip)"
     ;;
   hide-notif)
     termux-notification-dismiss --id all 2>/dev/null
-    echo "✅ Notificações ocultas"
+    echo "Notificacoes ocultas"
     ;;
   *)
     echo "============================="
@@ -59,6 +65,6 @@ case "$1" in
     echo "  restart    Reiniciar bot"
     echo "  status     Ver status"
     echo "  ip         Mostrar IP"
-    echo "  hide-notif Ocultar notificações"
+    echo "  hide-notif Ocultar notificacoes"
     ;;
 esac
