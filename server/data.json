@@ -1,0 +1,24 @@
+{
+  "prefix": "!",
+  "botName": "WhatsApp Bot",
+  "ownerNumber": "",
+  "autoReply": true,
+  "scheduleEnabled": true,
+  "groupSettings": {
+    "welcomeEnabled": true,
+    "goodbyeEnabled": true,
+    "welcomeMessage": "Bem-vindo ao grupo! 👋",
+    "goodbyeMessage": "Até logo! 👋",
+    "antiLink": false,
+    "antiLinkMessage": "Links não são permitidos!",
+    "antispam": false,
+    "muteAll": false
+  },
+  "commands": {
+    "ping": { "response": "Pong!", "enabled": true, "description": "Verificar bot" }
+  },
+  "autoReplies": {
+    "oi": "Olá! Como posso ajudar?",
+    "bom dia": "Bom dia! ☀️"
+  }
+}
