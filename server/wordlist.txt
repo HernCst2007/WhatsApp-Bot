@@ -9,46 +9,69 @@ hi|Não estou disponível no momento, logo responderei!
 hey|Não estou disponível no momento, logo responderei!
 eai|Não estou disponível no momento, logo responderei!
 eai?|Não estou disponível no momento, logo responderei!
+e ai|Não estou disponível no momento, logo responderei!
+e ai?|Não estou disponível no momento, logo responderei!
 tudo bem?|Não estou disponível no momento, logo responderei!
 tudo bom?|Não estou disponível no momento, logo responderei!
 como vai?|Não estou disponível no momento, logo responderei!
 como vc ta?|Não estou disponível no momento, logo responderei!
 como voce esta?|Não estou disponível no momento, logo responderei!
+como ta?|Não estou disponível no momento, logo responderei!
+como voce ta?|Não estou disponível no momento, logo responderei!
 fala|Não estou disponível no momento, logo responderei!
+fala!|Não estou disponível no momento, logo responderei!
 opa|Não estou disponível no momento, logo responderei!
+opa!|Não estou disponível no momento, logo responderei!
 ei|Não estou disponível no momento, logo responderei!
+ei!|Não estou disponível no momento, logo responderei!
 salve|Não estou disponível no momento, logo responderei!
 alegria|Não estou disponível no momento, logo responderei!
+eae|Não estou disponível no momento, logo responderei!
+eae?|Não estou disponível no momento, logo responderei!
+eae!|Não estou disponível no momento, logo responderei!
 obrigado|Não estou disponível no momento, logo responderei!
 obrigada|Não estou disponível no momento, logo responderei!
 valeu|Não estou disponível no momento, logo responderei!
 vlw|Não estou disponível no momento, logo responderei!
 brigado|Não estou disponível no momento, logo responderei!
+brigada|Não estou disponível no momento, logo responderei!
 tmj|Não estou disponível no momento, logo responderei!
+tamo junto|Não estou disponível no momento, logo responderei!
 até logo|Não estou disponível no momento, logo responderei!
+ate logo|Não estou disponível no momento, logo responderei!
 até mais|Não estou disponível no momento, logo responderei!
+ate mais|Não estou disponível no momento, logo responderei!
 tchau|Não estou disponível no momento, logo responderei!
+tchau!|Não estou disponível no momento, logo responderei!
 bye|Não estou disponível no momento, logo responderei!
 bye bye|Não estou disponível no momento, logo responderei!
 flw|Não estou disponível no momento, logo responderei!
 falou|Não estou disponível no momento, logo responderei!
+falou!|Não estou disponível no momento, logo responderei!
 é nóis|Não estou disponível no momento, logo responderei!
+eh nois|Não estou disponível no momento, logo responderei!
+é nois|Não estou disponível no momento, logo responderei!
 abraço|Não estou disponível no momento, logo responderei!
 abraços|Não estou disponível no momento, logo responderei!
 beijo|Não estou disponível no momento, logo responderei!
+beijos|Não estou disponível no momento, logo responderei!
 fiquem com deus|Não estou disponível no momento, logo responderei!
 com deus|Não estou disponível no momento, logo responderei!
 é isso|Não estou disponível no momento, logo responderei!
 blz|Não estou disponível no momento, logo responderei!
 beleza|Não estou disponível no momento, logo responderei!
 ok|Não estou disponível no momento, logo responderei!
+ok!|Não estou disponível no momento, logo responderei!
 sim|Não estou disponível no momento, logo responderei!
 nao|Não estou disponível no momento, logo responderei!
 não|Não estou disponível no momento, logo responderei!
 por favor|Não estou disponível no momento, logo responderei!
 com licença|Não estou disponível no momento, logo responderei!
+com licenca|Não estou disponível no momento, logo responderei!
 desculpa|Não estou disponível no momento, logo responderei!
+desculpe|Não estou disponível no momento, logo responderei!
 perdão|Não estou disponível no momento, logo responderei!
+perdao|Não estou disponível no momento, logo responderei!
 ajuda|Não estou disponível no momento, logo responderei!
 socorro|Não estou disponível no momento, logo responderei!
 preciso|Não estou disponível no momento, logo responderei!
@@ -58,3 +81,532 @@ chamou|Não estou disponível no momento, logo responderei!
 to aqui|Não estou disponível no momento, logo responderei!
 to online|Não estou disponível no momento, logo responderei!
 presente|Não estou disponível no momento, logo responderei!
+pode falar|Não estou disponível no momento, logo responderei!
+fala ai|Não estou disponível no momento, logo responderei!
+fala ai?|Não estou disponível no momento, logo responderei!
+e voce|Não estou disponível no momento, logo responderei!
+e vc|Não estou disponível no momento, logo responderei!
+e tu|Não estou disponível no momento, logo responderei!
+legal|Não estou disponível no momento, logo responderei!
+show|Não estou disponível no momento, logo responderei!
+show!|Não estou disponível no momento, logo responderei!
+top|Não estou disponível no momento, logo responderei!
+top!|Não estou disponível no momento, logo responderei!
+massa|Não estou disponível no momento, logo responderei!
+bacana|Não estou disponível no momento, logo responderei!
+incrível|Não estou disponível no momento, logo responderei!
+incrivel|Não estou disponível no momento, logo responderei!
+maravilha|Não estou disponível no momento, logo responderei!
+perfeito|Não estou disponível no momento, logo responderei!
+otimo|Não estou disponível no momento, logo responderei!
+ótimo|Não estou disponível no momento, logo responderei!
+bom|Não estou disponível no momento, logo responderei!
+legal!|Não estou disponível no momento, logo responderei!
+saudade|Não estou disponível no momento, logo responderei!
+saudades|Não estou disponível no momento, logo responderei!
+querido|Não estou disponível no momento, logo responderei!
+querida|Não estou disponível no momento, logo responderei!
+meu amor|Não estou disponível no momento, logo responderei!
+meu bem|Não estou disponível no momento, logo responderei!
+meu chapa|Não estou disponível no momento, logo responderei!
+mano|Não estou disponível no momento, logo responderei!
+cara|Não estou disponível no momento, logo responderei!
+bro|Não estou disponível no momento, logo responderei!
+amigo|Não estou disponível no momento, logo responderei!
+amiga|Não estou disponível no momento, logo responderei!
+paizão|Não estou disponível no momento, logo responderei!
+irmão|Não estou disponível no momento, logo responderei!
+irmao|Não estou disponível no momento, logo responderei!
+chefe|Não estou disponível no momento, logo responderei!
+patrão|Não estou disponível no momento, logo responderei!
+chefe!|Não estou disponível no momento, logo responderei!
+mestre|Não estou disponível no momento, logo responderei!
+chefão|Não estou disponível no momento, logo responderei!
+quanto tempo|Não estou disponível no momento, logo responderei!
+faz tempo|Não estou disponível no momento, logo responderei!
+o que faz?|Não estou disponível no momento, logo responderei!
+o que ta fazendo?|Não estou disponível no momento, logo responderei!
+o que vc ta fazendo?|Não estou disponível no momento, logo responderei!
+o que você faz?|Não estou disponível no momento, logo responderei!
+onde ta?|Não estou disponível no momento, logo responderei!
+onde voce ta?|Não estou disponível no momento, logo responderei!
+onde vc ta?|Não estou disponível no momento, logo responderei!
+vamos marcar?|Não estou disponível no momento, logo responderei!
+vamos sair?|Não estou disponível no momento, logo responderei!
+vamos conversar?|Não estou disponível no momento, logo responderei!
+pode vir?|Não estou disponível no momento, logo responderei!
+tá livre?|Não estou disponível no momento, logo responderei!
+ta livre?|Não estou disponível no momento, logo responderei!
+pode ajudar?|Não estou disponível no momento, logo responderei!
+me ajuda?|Não estou disponível no momento, logo responderei!
+me ajuda|Não estou disponível no momento, logo responderei!
+consegue?|Não estou disponível no momento, logo responderei!
+pode?|Não estou disponível no momento, logo responderei!
+dá?|Não estou disponível no momento, logo responderei!
+dá pra mim?|Não estou disponível no momento, logo responderei!
+me manda?|Não estou disponível no momento, logo responderei!
+manda?|Não estou disponível no momento, logo responderei!
+e agora?|Não estou disponível no momento, logo responderei!
+e depois?|Não estou disponível no momento, logo responderei!
+e então?|Não estou disponível no momento, logo responderei!
+entendeu?|Não estou disponível no momento, logo responderei!
+sabe?|Não estou disponível no momento, logo responderei!
+tá ok?|Não estou disponível no momento, logo responderei!
+tá bom?|Não estou disponível no momento, logo responderei!
+tudo certo?|Não estou disponível no momento, logo responderei!
+beleza?|Não estou disponível no momento, logo responderei!
+de boa?|Não estou disponível no momento, logo responderei!
+tranquilo?|Não estou disponível no momento, logo responderei!
+beleza!|Não estou disponível no momento, logo responderei!
+de boa|Não estou disponível no momento, logo responderei!
+tranquilo|Não estou disponível no momento, logo responderei!
+fechou|Não estou disponível no momento, logo responderei!
+fechou!|Não estou disponível no momento, logo responderei!
+combinado|Não estou disponível no momento, logo responderei!
+combinado!|Não estou disponível no momento, logo responderei!
+pode deixar|Não estou disponível no momento, logo responderei!
+sem problemas|Não estou disponível no momento, logo responderei!
+sem problema|Não estou disponível no momento, logo responderei!
+com certeza|Não estou disponível no momento, logo responderei!
+claro|Não estou disponível no momento, logo responderei!
+claro!|Não estou disponível no momento, logo responderei!
+obvio|Não estou disponível no momento, logo responderei!
+é claro|Não estou disponível no momento, logo responderei!
+é verdade|Não estou disponível no momento, logo responderei!
+verdade|Não estou disponível no momento, logo responderei!
+né|Não estou disponível no momento, logo responderei!
+né?|Não estou disponível no momento, logo responderei!
+uau|Não estou disponível no momento, logo responderei!
+wow|Não estou disponível no momento, logo responderei!
+caramba|Não estou disponível no momento, logo responderei!
+nossa|Não estou disponível no momento, logo responderei!
+nossa!|Não estou disponível no momento, logo responderei!
+misericórdia|Não estou disponível no momento, logo responderei!
+vei|Não estou disponível no momento, logo responderei!
+mano!|Não estou disponível no momento, logo responderei!
+gente|Não estou disponível no momento, logo responderei!
+meu|Não estou disponível no momento, logo responderei!
+caraca|Não estou disponível no momento, logo responderei!
+caramba!|Não estou disponível no momento, logo responderei!
+poxa|Não estou disponível no momento, logo responderei!
+que legal|Não estou disponível no momento, logo responderei!
+que legal!|Não estou disponível no momento, logo responderei!
+massa!|Não estou disponível no momento, logo responderei!
+foda|Não estou disponível no momento, logo responderei!
+foda!|Não estou disponível no momento, logo responderei!
+caralho|Não estou disponível no momento, logo responderei!
+putz|Não estou disponível no momento, logo responderei!
+droga|Não estou disponível no momento, logo responderei!
+pqp|Não estou disponível no momento, logo responderei!
+kaka|Não estou disponível no momento, logo responderei!
+krl|Não estou disponível no momento, logo responderei!
+mlk|Não estou disponível no momento, logo responderei!
+rapaz|Não estou disponível no momento, logo responderei!
+meu Deus|Não estou disponível no momento, logo responderei!
+meu deus|Não estou disponível no momento, logo responderei!
+meu criador|Não estou disponível no momento, logo responderei!
+santa|Não estou disponível no momento, logo responderei!
+uai|Não estou disponível no momento, logo responderei!
+é mesmo?|Não estou disponível no momento, logo responderei!
+sério?|Não estou disponível no momento, logo responderei!
+sério|Não estou disponível no momento, logo responderei!
+realmente?|Não estou disponível no momento, logo responderei!
+tá brincando?|Não estou disponível no momento, logo responderei!
+tô fora|Não estou disponível no momento, logo responderei!
+tô dentro|Não estou disponível no momento, logo responderei!
+manda ver|Não estou disponível no momento, logo responderei!
+bora|Não estou disponível no momento, logo responderei!
+bora!|Não estou disponível no momento, logo responderei!
+vamos lá|Não estou disponível no momento, logo responderei!
+bora la|Não estou disponível no momento, logo responderei!
+partiu|Não estou disponível no momento, logo responderei!
+só isso?|Não estou disponível no momento, logo responderei!
+é tudo?|Não estou disponível no momento, logo responderei!
+tudo pronto?|Não estou disponível no momento, logo responderei!
+tá pronto?|Não estou disponível no momento, logo responderei!
+pode ir|Não estou disponível no momento, logo responderei!
+pode mandar|Não estou disponível no momento, logo responderei!
+manda aí|Não estou disponível no momento, logo responderei!
+manda mensagem|Não estou disponível no momento, logo responderei!
+me responde|Não estou disponível no momento, logo responderei!
+responde aí|Não estou disponível no momento, logo responderei!
+tá me ouvindo?|Não estou disponível no momento, logo responderei!
+alô|Não estou disponível no momento, logo responderei!
+alguém?|Não estou disponível no momento, logo responderei!
+tem alguém aí?|Não estou disponível no momento, logo responderei!
+tem gente?|Não estou disponível no momento, logo responderei!
+aqui|Não estou disponível no momento, logo responderei!
+aqui!|Não estou disponível no momento, logo responderei!
+presença|Não estou disponível no momento, logo responderei!
+chegou|Não estou disponível no momento, logo responderei!
+cheguei|Não estou disponível no momento, logo responderei!
+voltei|Não estou disponível no momento, logo responderei!
+sumi?|Não estou disponível no momento, logo responderei!
+cadê?|Não estou disponível no momento, logo responderei!
+cadê você?|Não estou disponível no momento, logo responderei!
+cadê vc?|Não estou disponível no momento, logo responderei!
+onde ta?|Não estou disponível no momento, logo responderei!
+onde voce ta?|Não estou disponível no momento, logo responderei!
+vem aqui|Não estou disponível no momento, logo responderei!
+vem cá|Não estou disponível no momento, logo responderei!
+olha isso|Não estou disponível no momento, logo responderei!
+olha só|Não estou disponível no momento, logo responderei!
+confere|Não estou disponível no momento, logo responderei!
+veja isso|Não estou disponível no momento, logo responderei!
+olha aqui|Não estou disponível no momento, logo responderei!
+veio aqui|Não estou disponível no momento, logo responderei!
+oi tudo bem|Não estou disponível no momento, logo responderei!
+oi bom dia|Não estou disponível no momento, logo responderei!
+oi boa tarde|Não estou disponível no momento, logo responderei!
+oi boa noite|Não estou disponível no momento, logo responderei!
+bom dia!|Não estou disponível no momento, logo responderei!
+boa tarde!|Não estou disponível no momento, logo responderei!
+boa noite!|Não estou disponível no momento, logo responderei!
+hello!|Não estou disponível no momento, logo responderei!
+hi!|Não estou disponível no momento, logo responderei!
+hey!|Não estou disponível no momento, logo responderei!
+eai tudo bem|Não estou disponível no momento, logo responderei!
+eai como vai|Não estou disponível no momento, logo responderei!
+opa tudo bem|Não estou disponível no momento, logo responderei!
+fala mano|Não estou disponível no momento, logo responderei!
+fala mano!|Não estou disponível no momento, logo responderei!
+e aí mano|Não estou disponível no momento, logo responderei!
+e aí cara|Não estou disponível no momento, logo responderei!
+fala cara|Não estou disponível no momento, logo responderei!
+bom dia mano|Não estou disponível no momento, logo responderei!
+bom dia cara|Não estou disponível no momento, logo responderei!
+boa tarde mano|Não estou disponível no momento, logo responderei!
+boa noite mano|Não estou disponível no momento, logo responderei!
+oi bom dia|Não estou disponível no momento, logo responderei!
+oi boa tarde|Não estou disponível no momento, logo responderei!
+oi boa noite|Não estou disponível no momento, logo responderei!
+oi como vai|Não estou disponível no momento, logo responderei!
+oi tudo bem?|Não estou disponível no momento, logo responderei!
+oi eai|Não estou disponível no momento, logo responderei!
+oi fala|Não estou disponível no momento, logo responderei!
+opa tudo bem?|Não estou disponível no momento, logo responderei!
+opa como vai?|Não estou disponível no momento, logo responderei!
+fala bom dia|Não estou disponível no momento, logo responderei!
+fala boa tarde|Não estou disponível no momento, logo responderei!
+fala boa noite|Não estou disponível no momento, logo responderei!
+bom dia obrigado|Não estou disponível no momento, logo responderei!
+boa tarde obrigado|Não estou disponível no momento, logo responderei!
+tudo bem obrigado|Não estou disponível no momento, logo responderei!
+valeu mano|Não estou disponível no momento, logo responderei!
+obrigado mano|Não estou disponível no momento, logo responderei!
+vlw mano|Não estou disponível no momento, logo responderei!
+tchau mano|Não estou disponível no momento, logo responderei!
+até mais mano|Não estou disponível no momento, logo responderei!
+falou mano|Não estou disponível no momento, logo responderei!
+beijo|Não estou disponível no momento, logo responderei!
+beijos|Não estou disponível no momento, logo responderei!
+fiquem com deus|Não estou disponível no momento, logo responderei!
+com deus|Não estou disponível no momento, logo responderei!
+deus te abençoe|Não estou disponível no momento, logo responderei!
+deus abençoe|Não estou disponível no momento, logo responderei!
+benção|Não estou disponível no momento, logo responderei!
+é isso|Não estou disponível no momento, logo responderei!
+é isso aí|Não estou disponível no momento, logo responderei!
+isso aí|Não estou disponível no momento, logo responderei!
+fechou|Não estou disponível no momento, logo responderei!
+combinado|Não estou disponível no momento, logo responderei!
+pode deixar|Não estou disponível no momento, logo responderei!
+sem problemas|Não estou disponível no momento, logo responderei!
+beleza|Não estou disponível no momento, logo responderei!
+de boa|Não estou disponível no momento, logo responderei!
+tranquilo|Não estou disponível no momento, logo responderei!
+massa|Não estou disponível no momento, logo responderei!
+show|Não estou disponível no momento, logo responderei!
+top|Não estou disponível no momento, logo responderei!
+legal|Não estou disponível no momento, logo responderei!
+bacana|Não estou disponível no momento, logo responderei!
+otimo|Não estou disponível no momento, logo responderei!
+perfeito|Não estou disponível no momento, logo responderei!
+incrível|Não estou disponível no momento, logo responderei!
+maravilha|Não estou disponível no momento, logo responderei!
+saudade|Não estou disponível no momento, logo responderei!
+saudades|Não estou disponível no momento, logo responderei!
+mano|Não estou disponível no momento, logo responderei!
+cara|Não estou disponível no momento, logo responderei!
+amigo|Não estou disponível no momento, logo responderei!
+chefe|Não estou disponível no momento, logo responderei!
+obrigado|Não estou disponível no momento, logo responderei!
+valeu|Não estou disponível no momento, logo responderei!
+blz|Não estou disponível no momento, logo responderei!
+beleza|Não estou disponível no momento, logo responderei!
+ok|Não estou disponível no momento, logo responderei!
+sim|Não estou disponível no momento, logo responderei!
+claro|Não estou disponível no momento, logo responderei!
+com certeza|Não estou disponível no momento, logo responderei!
+pode deixar|Não estou disponível no momento, logo responderei!
+sem problemas|Não estou disponível no momento, logo responderei!
+fechou|Não estou disponível no momento, logo responderei!
+combinado|Não estou disponível no momento, logo responderei!
+bora|Não estou disponível no momento, logo responderei!
+vamos lá|Não estou disponível no momento, logo responderei!
+manda ver|Não estou disponível no momento, logo responderei!
+de boa|Não estou disponível no momento, logo responderei!
+tranquilo|Não estou disponível no momento, logo responderei!
+sério?|Não estou disponível no momento, logo responderei!
+é mesmo?|Não estou disponível no momento, logo responderei!
+verdade?|Não estou disponível no momento, logo responderei!
+caramba|Não estou disponível no momento, logo responderei!
+nossa|Não estou disponível no momento, logo responderei!
+uau|Não estou disponível no momento, logo responderei!
+legal|Não estou disponível no momento, logo responderei!
+show|Não estou disponível no momento, logo responderei!
+massa|Não estou disponível no momento, logo responderei!
+top|Não estou disponível no momento, logo responderei!
+perfeito|Não estou disponível no momento, logo responderei!
+otimo|Não estou disponível no momento, logo responderei!
+incrível|Não estou disponível no momento, logo responderei!
+saudade|Não estou disponível no momento, logo responderei!
+saudades|Não estou disponível no momento, logo responderei!
+meu amor|Não estou disponível no momento, logo responderei!
+meu bem|Não estou disponível no momento, logo responderei!
+querido|Não estou disponível no momento, logo responderei!
+querida|Não estou disponível no momento, logo responderei!
+chefe!|Não estou disponível no momento, logo responderei!
+patrão|Não estou disponível no momento, logo responderei!
+paizão|Não estou disponível no momento, logo responderei!
+irmão|Não estou disponível no momento, logo responderei!
+mano!|Não estou disponível no momento, logo responderei!
+cara!|Não estou disponível no momento, logo responderei!
+bro|Não estou disponível no momento, logo responderei!
+amigo|Não estou disponível no momento, logo responderei!
+amiga|Não estou disponível no momento, logo responderei!
+fala ai|Não estou disponível no momento, logo responderei!
+fala aí|Não estou disponível no momento, logo responderei!
+fala!|Não estou disponível no momento, logo responderei!
+pode falar|Não estou disponível no momento, logo responderei!
+me manda|Não estou disponível no momento, logo responderei!
+manda|Não estou disponível no momento, logo responderei!
+manda!|Não estou disponível no momento, logo responderei!
+me chama|Não estou disponível no momento, logo responderei!
+chama|Não estou disponível no momento, logo responderei!
+me responde|Não estou disponível no momento, logo responderei!
+responde aí|Não estou disponível no momento, logo responderei!
+o que faz?|Não estou disponível no momento, logo responderei!
+o que ta fazendo?|Não estou disponível no momento, logo responderei!
+o que vc ta fazendo?|Não estou disponível no momento, logo responderei!
+onde ta?|Não estou disponível no momento, logo responderei!
+cadê?|Não estou disponível no momento, logo responderei!
+cadê vc?|Não estou disponível no momento, logo responderei!
+vem aqui|Não estou disponível no momento, logo responderei!
+vem cá|Não estou disponível no momento, logo responderei!
+olha isso|Não estou disponível no momento, logo responderei!
+olha só|Não estou disponível no momento, logo responderei!
+veja isso|Não estou disponível no momento, logo responderei!
+olha aqui|Não estou disponível no momento, logo responderei!
+aqui|Não estou disponível no momento, logo responderei!
+cheguei|Não estou disponível no momento, logo responderei!
+voltei|Não estou disponível no momento, logo responderei!
+e agora?|Não estou disponível no momento, logo responderei!
+e depois?|Não estou disponível no momento, logo responderei!
+e então?|Não estou disponível no momento, logo responderei!
+entendeu?|Não estou disponível no momento, logo responderei!
+sabe?|Não estou disponível no momento, logo responderei!
+tá ok?|Não estou disponível no momento, logo responderei!
+tá bom?|Não estou disponível no momento, logo responderei!
+tudo certo?|Não estou disponível no momento, logo responderei!
+de boa?|Não estou disponível no momento, logo responderei!
+tranquilo?|Não estou disponível no momento, logo responderei!
+pode ir|Não estou disponível no momento, logo responderei!
+pode mandar|Não estou disponível no momento, logo responderei!
+manda aí|Não estou disponível no momento, logo responderei!
+me responde|Não estou disponível no momento, logo responderei!
+responde aí|Não estou disponível no momento, logo responderei!
+cadê você?|Não estou disponível no momento, logo responderei!
+onde você ta?|Não estou disponível no momento, logo responderei!
+vamos conversar?|Não estou disponível no momento, logo responderei!
+vamos sair?|Não estou disponível no momento, logo responderei!
+pode ajudar?|Não estou disponível no momento, logo responderei!
+me ajuda?|Não estou disponível no momento, logo responderei!
+consegue?|Não estou disponível no momento, logo responderei!
+pode?|Não estou disponível no momento, logo responderei!
+dá pra mim?|Não estou disponível no momento, logo responderei!
+me manda?|Não estou disponível no momento, logo responderei!
+e agora?|Não estou disponível no momento, logo responderei!
+e depois?|Não estou disponível no momento, logo responderei!
+tá livre?|Não estou disponível no momento, logo responderei!
+beleza?|Não estou disponível no momento, logo responderei!
+tranquilo?|Não estou disponível no momento, logo responderei!
+é verdade?|Não estou disponível no momento, logo responderei!
+deus te abençoe|Não estou disponível no momento, logo responderei!
+benção|Não estou disponível no momento, logo responderei!
+é isso aí|Não estou disponível no momento, logo responderei!
+isso aí|Não estou disponível no momento, logo responderei!
+pode crer|Não estou disponível no momento, logo responderei!
+é verdade!|Não estou disponível no momento, logo responderei!
+com certeza!|Não estou disponível no momento, logo responderei!
+claro!|Não estou disponível no momento, logo responderei!
+sem dúvida|Não estou disponível no momento, logo responderei!
+ com certeza|Não estou disponível no momento, logo responderei!
+obrigadão|Não estou disponível no momento, logo responderei!
+obrigadão!|Não estou disponível no momento, logo responderei!
+valeuzão|Não estou disponível no momento, logo responderei!
+brigadão|Não estou disponível no momento, logo responderei!
+um abraço|Não estou disponível no momento, logo responderei!
+um beijo|Não estou disponível no momento, logo responderei!
+um abraço!|Não estou disponível no momento, logo responderei!
+um beijo!|Não estou disponível no momento, logo responderei!
+te amo|Não estou disponível no momento, logo responderei!
+te amo!|Não estou disponível no momento, logo responderei!
+eu te amo|Não estou disponível no momento, logo responderei!
+eu te amo!|Não estou disponível no momento, logo responderei!
+você é demais|Não estou disponível no momento, logo responderei!
+vc é demais|Não estou disponível no momento, logo responderei!
+show de bola|Não estou disponível no momento, logo responderei!
+show de bola!|Não estou disponível no momento, logo responderei!
+tudo joia|Não estou disponível no momento, logo responderei!
+tudo certo|Não estou disponível no momento, logo responderei!
+estou bem|Não estou disponível no momento, logo responderei!
+to bem|Não estou disponível no momento, logo responderei!
+estou ótimo|Não estou disponível no momento, logo responderei!
+to ótimo|Não estou disponível no momento, logo responderei!
+e você?|Não estou disponível no momento, logo responderei!
+e vc?|Não estou disponível no momento, logo responderei!
+e tu?|Não estou disponível no momento, logo responderei!
+como você está?|Não estou disponível no momento, logo responderei!
+como vc esta?|Não estou disponível no momento, logo responderei!
+tudo bem com você?|Não estou disponível no momento, logo responderei!
+tudo bem com vc?|Não estou disponível no momento, logo responderei!
+bom dia, tudo bem?|Não estou disponível no momento, logo responderei!
+boa tarde, tudo bem?|Não estou disponível no momento, logo responderei!
+boa noite, tudo bem?|Não estou disponível no momento, logo responderei!
+oi, como vai?|Não estou disponível no momento, logo responderei!
+oi, tudo bem?|Não estou disponível no momento, logo responderei!
+oi, bom dia!|Não estou disponível no momento, logo responderei!
+oi, boa tarde!|Não estou disponível no momento, logo responderei!
+oi, boa noite!|Não estou disponível no momento, logo responderei!
+opa, tudo bem?|Não estou disponível no momento, logo responderei!
+fala, tudo bem?|Não estou disponível no momento, logo responderei!
+eai, tudo bem?|Não estou disponível no momento, logo responderei!
+bom dia, como vai?|Não estou disponível no momento, logo responderei!
+boa tarde, como vai?|Não estou disponível no momento, logo responderei!
+boa noite, como vai?|Não estou disponível no momento, logo responderei!
+saudades!|Não estou disponível no momento, logo responderei!
+estou com saudades|Não estou disponível no momento, logo responderei!
+to com saudades|Não estou disponível no momento, logo responderei!
+saudades você|Não estou disponível no momento, logo responderei!
+saudades vc|Não estou disponível no momento, logo responderei!
+vamos nos ver|Não estou disponível no momento, logo responderei!
+quer te ver|Não estou disponível no momento, logo responderei!
+queria te ver|Não estou disponível no momento, logo responderei!
+e se a gente se ver?|Não estou disponível no momento, logo responderei!
+bora se encontrar|Não estou disponível no momento, logo responderei!
+muito obrigado|Não estou disponível no momento, logo responderei!
+muito obrigada|Não estou disponível no momento, logo responderei!
+mil obrigados|Não estou disponível no momento, logo responderei!
+agradeço|Não estou disponível no momento, logo responderei!
+agradeço muito|Não estou disponível no momento, logo responderei!
+fico grato|Não estou disponível no momento, logo responderei!
+fico grata|Não estou disponível no momento, logo responderei!
+é um prazer|Não estou disponível no momento, logo responderei!
+com prazer|Não estou disponível no momento, logo responderei!
+magoei|Não estou disponível no momento, logo responderei!
+triste|Não estou disponível no momento, logo responderei!
+tristeza|Não estou disponível no momento, logo responderei!
+me ajudem|Não estou disponível no momento, logo responderei!
+alguém me ajuda|Não estou disponível no momento, logo responderei!
+preciso de ajuda|Não estou disponível no momento, logo responderei!
+socorro!|Não estou disponível no momento, logo responderei!
+me socorra|Não estou disponível no momento, logo responderei!
+urgente!|Não estou disponível no momento, logo responderei!
+importante|Não estou disponível no momento, logo responderei!
+atenção|Não estou disponível no momento, logo responderei!
+atenção!|Não estou disponível no momento, logo responderei!
+importante!|Não estou disponível no momento, logo responderei!
+lerdeza?|Não estou disponível no momento, logo responderei!
+demorou|Não estou disponível no momento, logo responderei!
+demorou!|Não estou disponível no momento, logo responderei!
+então|Não estou disponível no momento, logo responderei!
+então?|Não estou disponível no momento, logo responderei!
+pois é|Não estou disponível no momento, logo responderei!
+pois é!|Não estou disponível no momento, logo responderei!
+né?|Não estou disponível no momento, logo responderei!
+não é?|Não estou disponível no momento, logo responderei!
+certo?|Não estou disponível no momento, logo responderei!
+certo!|Não estou disponível no momento, logo responderei!
+isso mesmo|Não estou disponível no momento, logo responderei!
+isso mesmo!|Não estou disponível no momento, logo responderei!
+exatamente|Não estou disponível no momento, logo responderei!
+exatamente!|Não estou disponível no momento, logo responderei!
+concordo|Não estou disponível no momento, logo responderei!
+concordo!|Não estou disponível no momento, logo responderei!
+totalmente|Não estou disponível no momento, logo responderei!
+100%|Não estou disponível no momento, logo responderei!
+aprovado|Não estou disponível no momento, logo responderei!
+aprovado!|Não estou disponível no momento, logo responderei!
+lucido|Não estou disponível no momento, logo responderei!
+lúcido|Não estou disponível no momento, logo responderei!
+sagaz|Não estou disponível no momento, logo responderei!
+esperto|Não estou disponível no momento, logo responderei!
+genial|Não estou disponível no momento, logo responderei!
+genial!|Não estou disponível no momento, logo responderei!
+brilhante|Não estou disponível no momento, logo responderei!
+sensacional|Não estou disponível no momento, logo responderei!
+sensacional!|Não estou disponível no momento, logo responderei!
+fantástico|Não estou disponível no momento, logo responderei!
+fantastico|Não estou disponível no momento, logo responderei!
+maravilhoso|Não estou disponível no momento, logo responderei!
+excelente|Não estou disponível no momento, logo responderei!
+excelente!|Não estou disponível no momento, logo responderei!
+nota 10|Não estou disponível no momento, logo responderei!
+10/10|Não estou disponível no momento, logo responderei!
+perfeito!|Não estou disponível no momento, logo responderei!
+impecável|Não estou disponível no momento, logo responderei!
+impecavel|Não estou disponível no momento, logo responderei!
+adorei|Não estou disponível no momento, logo responderei!
+amei|Não estou disponível no momento, logo responderei!
+curti|Não estou disponível no momento, logo responderei!
+curti!|Não estou disponível no momento, logo responderei!
+gostei|Não estou disponível no momento, logo responderei!
+gostei!|Não estou disponível no momento, logo responderei!
+foi top|Não estou disponível no momento, logo responderei!
+mandou bem|Não estou disponível no momento, logo responderei!
+mandou bem!|Não estou disponível no momento, logo responderei!
+parabéns|Não estou disponível no momento, logo responderei!
+parabéns!|Não estou disponível no momento, logo responderei!
+parabens|Não estou disponível no momento, logo responderei!
+felicidades|Não estou disponível no momento, logo responderei!
+felicidades!|Não estou disponível no momento, logo responderei!
+sucesso|Não estou disponível no momento, logo responderei!
+sucesso!|Não estou disponível no momento, logo responderei!
+boa sorte|Não estou disponível no momento, logo responderei!
+boa sorte!|Não estou disponível no momento, logo responderei!
+sorte|Não estou disponível no momento, logo responderei!
+abracos|Não estou disponível no momento, logo responderei!
+abrazo|Não estou disponível no momento, logo responderei!
+um abraço|Não estou disponível no momento, logo responderei!
+grande abraço|Não estou disponível no momento, logo responderei!
+um beijão|Não estou disponível no momento, logo responderei!
+beijão|Não estou disponível no momento, logo responderei!
+te adoro|Não estou disponível no momento, logo responderei!
+adoro você|Não estou disponível no momento, logo responderei!
+adoro vc|Não estou disponível no momento, logo responderei!
+você é incrível|Não estou disponível no momento, logo responderei!
+vc é incrível|Não estou disponível no momento, logo responderei!
+você é o melhor|Não estou disponível no momento, logo responderei!
+vc é o melhor|Não estou disponível no momento, logo responderei!
+melhor pessoa|Não estou disponível no momento, logo responderei!
+você é nota 10|Não estou disponível no momento, logo responderei!
+vc é nota 10|Não estou disponível no momento, logo responderei!
+foda|Não estou disponível no momento, logo responderei!
+foda!|Não estou disponível no momento, logo responderei!
+top demais|Não estou disponível no momento, logo responderei!
+show demais|Não estou disponível no momento, logo responderei!
+massa demais|Não estou disponível no momento, logo responderei!
+sensacional|Não estou disponível no momento, logo responderei!
+incrível|Não estou disponível no momento, logo responderei!
+maravilhoso|Não estou disponível no momento, logo responderei!
+perfeito|Não estou disponível no momento, logo responderei!
+adorei!|Não estou disponível no momento, logo responderei!
+curti demais|Não estou disponível no momento, logo responderei!
+amei demais|Não estou disponível no momento, logo responderei!
+foi demais|Não estou disponível no momento, logo responderei!
+mandou bem demais|Não estou disponível no momento, logo responderei!
+top demais|Não estou disponível no momento, logo responderei!
+show de bola demais|Não estou disponível no momento, logo responderei!
+beleza total|Não estou disponível no momento, logo responderei!
+perfeito demais|Não estou disponível no momento, logo responderei!
