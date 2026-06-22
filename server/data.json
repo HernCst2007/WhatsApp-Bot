@@ -3,6 +3,8 @@
   "botName": "WhatsApp Bot",
   "ownerNumber": "",
   "autoReply": true,
+  "msgLimit": 2,
+  "msgLimitTime": 120,
   "scheduleEnabled": true,
   "groupSettings": {
     "welcomeEnabled": true,
