@@ -42,9 +42,7 @@
     .tabs{display:flex;gap:6px;margin-bottom:12px}
     .tab{padding:6px 14px;border-radius:8px;background:#111b21;color:#8696a0;border:none;font-size:13px;cursor:pointer}
     .tab.on{background:#25d36620;color:#25d366}
-    .ngrok-box{background:#111b21;border-radius:8px;padding:10px;margin-top:10px;display:flex;align-items:center;gap:8px}
-    .ngrok-url{flex:1;color:#3b82f6;font-size:13px;word-break:break-all;font-family:monospace}
-    .copy-btn{background:#25d366;color:#fff;border:none;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer}
+
     .info{color:#8696a0;font-size:12px;line-height:1.6;margin-top:8px}
   </style>
 </head>
@@ -62,20 +60,6 @@
         <p style="color:#8696a0;font-size:13px" id="qrText">Clique em Conectar</p>
       </div>
       <button id="btnConnect" class="btn btn-green" onclick="toggleConn()">Conectar</button>
-    </div>
-
-    <!-- NGROK -->
-    <div class="card">
-      <h2>Acesso Externo (Ngrok)</h2>
-      <p class="info">Para acessar o painel de qualquer lugar (4G, outro celular)</p>
-      <button class="btn btn-gray" onclick="startNgrok()" style="margin-top:10px">Ativar Ngrok</button>
-      <div id="ngrokArea" style="display:none">
-        <div class="ngrok-box">
-          <span class="ngrok-url" id="ngrokUrl"></span>
-          <button class="copy-btn" onclick="copyUrl()">Copiar</button>
-        </div>
-        <p class="info">Copie essa URL e abra em qualquer navegador</p>
-      </div>
     </div>
 
     <!-- CHAT -->
@@ -188,7 +172,6 @@
       if(qr){a.innerHTML=`<img src="${qr}"><p style="color:#8696a0;font-size:12px;margin-top:8px">Escaneie com WhatsApp</p>`;}
       else{a.innerHTML='<p style="color:#8696a0;font-size:13px">Clique em Conectar</p>';}
     });
-    s.on('ngrok', url => { if(url){document.getElementById('ngrokArea').style.display='block';document.getElementById('ngrokUrl').textContent=url;} });
     s.on('message', m => {
       const c = document.getElementById('chat');
       c.innerHTML+=`<div class="msg msg-in"><div>${m.body}</div><div class="msg-time">${m.time} - ${m.from.split('@')[0]}${m.isGroup?' (grupo)':''}</div></div>`;
@@ -201,8 +184,7 @@
     });
 
     async function toggleConn(){const b=document.getElementById('btnConnect');await fetch(b.textContent==='Conectar'?'/connect':'/disconnect',{method:'POST'});}
-    async function startNgrok(){const r=await fetch('/ngrok/start',{method:'POST'});const d=await r.json();if(!d.success)alert(d.error);}
-    function copyUrl(){navigator.clipboard.writeText(document.getElementById('ngrokUrl').textContent);alert('Copiado!');}
+
     function showTab(t,el){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));el.classList.add('on');document.getElementById('cmdsTab').style.display=t==='cmds'?'block':'none';document.getElementById('arsTab').style.display=t==='ars'?'block':'none';}
 
     async function loadData(){
