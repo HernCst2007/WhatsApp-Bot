@@ -15,34 +15,11 @@
     "muteAll": false
   },
   "commands": {
-    "ping": { "response": "Pong!", "enabled": true, "description": "Verificar bot" }
+    "ping": {
+      "response": "Pong!",
+      "enabled": true,
+      "description": "Verificar bot"
+    }
   },
-  "autoReplies": {
-    "oi": "Não estou disponível no momento, logo responderei!",
-    "olá": "Não estou disponível no momento, logo responderei!",
-    "ola": "Não estou disponível no momento, logo responderei!",
-    "bom dia": "Não estou disponível no momento, logo responderei!",
-    "boa tarde": "Não estou disponível no momento, logo responderei!",
-    "boa noite": "Não estou disponível no momento, logo responderei!",
-    "hello": "Não estou disponível no momento, logo responderei!",
-    "hi": "Não estou disponível no momento, logo responderei!",
-    "eai": "Não estou disponível no momento, logo responderei!",
-    "tudo bem?": "Não estou disponível no momento, logo responderei!",
-    "como vai?": "Não estou disponível no momento, logo responderei!",
-    "fala": "Não estou disponível no momento, logo responderei!",
-    "opa": "Não estou disponível no momento, logo responderei!",
-    "ei": "Não estou disponível no momento, logo responderei!",
-    "obrigado": "Não estou disponível no momento, logo responderei!",
-    "obrigada": "Não estou disponível no momento, logo responderei!",
-    "valeu": "Não estou disponível no momento, logo responderei!",
-    "vlw": "Não estou disponível no momento, logo responderei!",
-    "até logo": "Não estou disponível no momento, logo responderei!",
-    "tchau": "Não estou disponível no momento, logo responderei!",
-    "bye": "Não estou disponível no momento, logo responderei!",
-    "abraço": "Não estou disponível no momento, logo responderei!",
-    "blz": "Não estou disponível no momento, logo responderei!",
-    "ok": "Não estou disponível no momento, logo responderei!",
-    "ajuda": "Não estou disponível no momento, logo responderei!",
-    "chama": "Não estou disponível no momento, logo responderei!"
-  }
+  "autoReplies": {}
 }

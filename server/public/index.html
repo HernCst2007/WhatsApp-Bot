@@ -151,6 +151,16 @@
       <input class="input" id="cfgPrefix" placeholder="Prefixo (!)">
       <div class="row"><span>Auto-Reply</span><div id="tAR" class="toggle on" onclick="toggleCfg('autoReply')"></div></div>
       <div class="row"><span>Agendamentos</span><div id="tSched" class="toggle on" onclick="toggleCfg('scheduleEnabled')"></div></div>
+      <div style="border-top:1px solid #2a3942;padding-top:12px;margin-top:12px">
+        <label style="color:#8696a0;font-size:12px">Limite de mensagens por contato/grupo</label>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <input class="input" id="cfgLimit" type="number" min="1" max="100" style="width:80px" placeholder="2">
+          <span style="color:#8696a0;font-size:13px;align-self:center">mensagens por</span>
+          <input class="input" id="cfgLimitTime" type="number" min="1" max="3600" style="width:80px" placeholder="60">
+          <span style="color:#8696a0;font-size:13px;align-self:center">segundos</span>
+        </div>
+        <p style="color:#8696a0;font-size:11px;margin-top:4px">Bot responde no máximo X vezes por contato/grupo dentro do tempo</p>
+      </div>
       <button class="btn btn-green" onclick="saveCfg()" style="margin-top:10px">Salvar</button>
     </div>
   </div>
@@ -206,6 +216,8 @@
       document.getElementById('aiKey').value=cfg.aiApiKey||'';
       document.getElementById('aiModel').value=cfg.aiModel||'gpt-3.5-turbo';
       document.getElementById('aiPrompt').value=cfg.aiPrompt||'';
+      document.getElementById('cfgLimit').value=cfg.msgLimit||2;
+      document.getElementById('cfgLimitTime').value=cfg.msgLimitTime||60;
       renderCmds(); renderArs();
     }
     function renderCmds(){document.getElementById('cmdList').innerHTML=Object.entries(cfg.commands||{}).map(([n,c])=>`<div class="item"><div><div class="name">${cfg.prefix}${n}</div><div class="val">${c.response}</div></div><button class="btn btn-red" style="width:auto;padding:6px 10px;font-size:12px" onclick="delCmd('${n}')">✕</button></div>`).join('');}
@@ -219,7 +231,14 @@
     function toggleGS(k){gs[k]=!gs[k];const m={welcomeEnabled:'tWelcome',goodbyeEnabled:'tGoodbye',antiLink:'tAntiLink',antispam:'tAntiSpam',muteAll:'tMute'};document.getElementById(m[k]).className='toggle'+(gs[k]?' on':'');}
     async function saveGS(){gs.welcomeMessage=document.getElementById('gsWelcome').value;gs.goodbyeMessage=document.getElementById('gsGoodbye').value;await fetch('/groupsettings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(gs)});alert('Salvo!');}
     function toggleCfg(k){cfg[k]=!cfg[k];document.getElementById(k==='autoReply'?'tAR':'tSched').className='toggle'+(cfg[k]?' on':'');}
-    async function saveCfg(){cfg.botName=document.getElementById('cfgName').value;cfg.prefix=document.getElementById('cfgPrefix').value;await fetch('/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});alert('Salvo!');}
+    async function saveCfg(){
+      cfg.botName=document.getElementById('cfgName').value;
+      cfg.prefix=document.getElementById('cfgPrefix').value;
+      cfg.msgLimit=parseInt(document.getElementById('cfgLimit').value)||2;
+      cfg.msgLimitTime=parseInt(document.getElementById('cfgLimitTime').value)||60;
+      await fetch('/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});
+      alert('Salvo!');
+    }
 
     function toggleAI(){cfg.aiEnabled=!cfg.aiEnabled;document.getElementById('tAI').className='toggle'+(cfg.aiEnabled?' on':'');}
     async function saveAI(){

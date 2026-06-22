@@ -27,6 +27,8 @@ if (!fs.existsSync(authDir)) fs.mkdirSync(authDir);
 const defaultData = {
   prefix: '!', botName: 'WhatsApp Bot', ownerNumber: '',
   autoReply: true, scheduleEnabled: true,
+  msgLimit: 2,
+  msgLimitTime: 60,
   aiEnabled: false,
   aiProvider: 'openai',
   aiApiKey: '',
@@ -54,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let sock = null, qrCode = null, connected = false, connectionStatus = 'disconnected';
 let ngrokUrl = null;
+const msgCounters = {};
 
 async function startWhatsApp() {
   try {
@@ -137,6 +140,19 @@ async function handleMessage(sock, msg) {
       global._lastMsg[sender] = now;
     }
   }
+
+  // Rate limiting
+  const data2 = loadData();
+  const limit = data2.msgLimit || 2;
+  const limitTime = (data2.msgLimitTime || 60) * 1000;
+  const counterKey = isGroup ? from : sender;
+  const now2 = Date.now();
+  if (!msgCounters[counterKey]) msgCounters[counterKey] = [];
+  msgCounters[counterKey] = msgCounters[counterKey].filter(t => now2 - t < limitTime);
+  if (msgCounters[counterKey].length >= limit) {
+    return;
+  }
+  msgCounters[counterKey].push(now2);
 
   if (!body.startsWith(data.prefix)) {
     if (data.aiEnabled && data.aiApiKey) {
