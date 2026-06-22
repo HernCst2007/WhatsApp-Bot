@@ -15,10 +15,13 @@
     "muteAll": false
   },
   "commands": {
-    "ping": { "response": "Pong!", "enabled": true, "description": "Verificar bot" }
+    "ping": {
+      "response": "Pong!",
+      "enabled": true,
+      "description": "Verificar bot"
+    }
   },
   "autoReplies": {
-    "oi": "Olá! Como posso ajudar?",
-    "bom dia": "Bom dia! ☀️"
+    "Ola": "No momento não estou podendo responder!"
   }
 }

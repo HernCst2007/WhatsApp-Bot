@@ -118,6 +118,48 @@
       <button class="btn btn-green" onclick="saveGS()">Salvar</button>
     </div>
 
+    <!-- IA -->
+    <div class="card">
+      <h2>Inteligência Artificial</h2>
+      <div class="row"><span>Ativar IA</span><div id="tAI" class="toggle" onclick="toggleAI()"></div></div>
+      <select class="input" id="aiProvider" style="appearance:auto">
+        <option value="openai">OpenAI (GPT-4, GPT-3.5)</option>
+        <option value="gemini">Google Gemini</option>
+        <option value="mimo">MiMo (Xiaomi)</option>
+        <option value="deepseek">DeepSeek</option>
+        <option value="claude">Claude (Anthropic)</option>
+        <option value="groq">Groq (Llama 3.3)</option>
+        <option value="together">Together AI</option>
+      </select>
+      <input class="input" id="aiKey" type="password" placeholder="API Key">
+      <input class="input" id="aiModel" placeholder="Modelo (ex: gpt-3.5-turbo)">
+      <textarea class="input" id="aiPrompt" rows="2" placeholder="System Prompt"></textarea>
+      <p style="color:#8696a0;font-size:11px;margin-top:4px">
+        Prefixo do comando: !ai [pergunta]<br>
+        Ou deixe a IA responder automaticamente a todas as mensagens
+      </p>
+      <button class="btn btn-green" onclick="saveAI()">Salvar IA</button>
+    </div>
+
+    <!-- WORDLIST -->
+    <div class="card">
+      <h2>Wordlist (Importar/Exportar)</h2>
+      <p style="color:#8696a0;font-size:12px;margin-bottom:10px">Formato: gatilho|resposta (um por linha)</p>
+      <textarea class="input" id="wordlistText" rows="6" placeholder="oi|Olá!&#10;bom dia|Bom dia!&#10;obrigado|De nada!"></textarea>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="btn btn-green" onclick="importWL('append')">Importar (adicionar)</button>
+        <button class="btn btn-gray" onclick="importWL('replace')">Importar (substituir)</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-gray" onclick="exportAR()">Exportar Auto-Replies</button>
+        <button class="btn btn-gray" onclick="exportCmds()">Exportar Comandos</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn btn-red" onclick="clearAR()">Limpar Auto-Replies</button>
+        <button class="btn btn-red" onclick="clearCmds()">Limpar Comandos</button>
+      </div>
+    </div>
+
     <!-- CONFIG -->
     <div class="card">
       <h2>Configurações</h2>
@@ -177,6 +219,11 @@
       document.getElementById('tMute').className='toggle'+(gs.muteAll?' on':'');
       document.getElementById('gsWelcome').value=gs.welcomeMessage||'';
       document.getElementById('gsGoodbye').value=gs.goodbyeMessage||'';
+      document.getElementById('tAI').className='toggle'+(cfg.aiEnabled?' on':'');
+      document.getElementById('aiProvider').value=cfg.aiProvider||'openai';
+      document.getElementById('aiKey').value=cfg.aiApiKey||'';
+      document.getElementById('aiModel').value=cfg.aiModel||'gpt-3.5-turbo';
+      document.getElementById('aiPrompt').value=cfg.aiPrompt||'';
       renderCmds(); renderArs();
     }
     function renderCmds(){document.getElementById('cmdList').innerHTML=Object.entries(cfg.commands||{}).map(([n,c])=>`<div class="item"><div><div class="name">${cfg.prefix}${n}</div><div class="val">${c.response}</div></div><button class="btn btn-red" style="width:auto;padding:6px 10px;font-size:12px" onclick="delCmd('${n}')">✕</button></div>`).join('');}
@@ -191,6 +238,31 @@
     async function saveGS(){gs.welcomeMessage=document.getElementById('gsWelcome').value;gs.goodbyeMessage=document.getElementById('gsGoodbye').value;await fetch('/groupsettings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(gs)});alert('Salvo!');}
     function toggleCfg(k){cfg[k]=!cfg[k];document.getElementById(k==='autoReply'?'tAR':'tSched').className='toggle'+(cfg[k]?' on':'');}
     async function saveCfg(){cfg.botName=document.getElementById('cfgName').value;cfg.prefix=document.getElementById('cfgPrefix').value;await fetch('/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});alert('Salvo!');}
+
+    function toggleAI(){cfg.aiEnabled=!cfg.aiEnabled;document.getElementById('tAI').className='toggle'+(cfg.aiEnabled?' on':'');}
+    async function saveAI(){
+      cfg.aiEnabled=document.getElementById('tAI').classList.contains('on');
+      cfg.aiProvider=document.getElementById('aiProvider').value;
+      cfg.aiApiKey=document.getElementById('aiKey').value;
+      cfg.aiModel=document.getElementById('aiModel').value;
+      cfg.aiPrompt=document.getElementById('aiPrompt').value;
+      await fetch('/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});
+      alert('IA configurada!');
+    }
+
+    async function importWL(mode){
+      const text=document.getElementById('wordlistText').value;
+      if(!text.trim())return alert('Digite as linhas no formato: gatilho|resposta');
+      const r=await fetch('/autoreplies/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,mode})});
+      const d=await r.json();
+      alert(`${d.added} auto-reply(s) importado(s)!`);
+      document.getElementById('wordlistText').value='';
+      loadData();
+    }
+    function exportAR(){window.open('/autoreplies/export','_blank');}
+    function exportCmds(){window.open('/commands/export','_blank');}
+    async function clearAR(){if(!confirm('Limpar TODOS os auto-replies?'))return;await fetch('/autoreplies/clear',{method:'POST'});loadData();}
+    async function clearCmds(){if(!confirm('Limpar TODOS os comandos?'))return;await fetch('/commands/clear',{method:'POST'});loadData();}
 
     loadData();
   </script>

@@ -27,6 +27,11 @@ if (!fs.existsSync(authDir)) fs.mkdirSync(authDir);
 const defaultData = {
   prefix: '!', botName: 'WhatsApp Bot', ownerNumber: '',
   autoReply: true, scheduleEnabled: true,
+  aiEnabled: false,
+  aiProvider: 'openai',
+  aiApiKey: '',
+  aiModel: 'gpt-3.5-turbo',
+  aiPrompt: 'Você é um assistente útil. Responda em português.',
   groupSettings: {
     welcomeEnabled: true, goodbyeEnabled: true,
     welcomeMessage: 'Bem-vindo ao grupo! 👋',
@@ -134,6 +139,10 @@ async function handleMessage(sock, msg) {
   }
 
   if (!body.startsWith(data.prefix)) {
+    if (data.aiEnabled && data.aiApiKey) {
+      await handleAI(sock, from, body);
+      return;
+    }
     if (data.autoReply) {
       const lower = body.toLowerCase();
       for (const [key, value] of Object.entries(data.autoReplies)) {
@@ -149,6 +158,13 @@ async function handleMessage(sock, msg) {
 
   const [command] = body.slice(data.prefix.length).trim().split(/\s+/);
   const cmd = command.toLowerCase();
+
+  if (cmd === 'ai' && data.aiEnabled && data.aiApiKey) {
+    const question = body.slice(data.prefix.length + 3).trim();
+    if (!question) { await sock.sendMessage(from, { text: 'Use: !ai sua pergunta' }); return; }
+    await handleAI(sock, from, question);
+    return;
+  }
 
   if (isGroup && ['mute','unmute','antilink','welcome','goodbye'].includes(cmd)) {
     try {
@@ -167,6 +183,105 @@ async function handleMessage(sock, msg) {
     await sock.sendMessage(from, { text: data.commands[cmd].response });
     io.emit('bot_reply', { to: from, text: data.commands[cmd].response });
   }
+}
+
+// --- AI Handlers ---
+async function handleAI(sock, from, prompt) {
+  const data = loadData();
+  try {
+    await sock.sendMessage(from, { text: '🧠 Pensando...' });
+    let reply = '';
+
+    if (data.aiProvider === 'openai') {
+      reply = await callOpenAI(data.aiApiKey, data.aiModel, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'gemini') {
+      reply = await callGemini(data.aiApiKey, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'mimo') {
+      reply = await callMiMo(data.aiApiKey, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'deepseek') {
+      reply = await callDeepSeek(data.aiApiKey, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'claude') {
+      reply = await callClaude(data.aiApiKey, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'groq') {
+      reply = await callGroq(data.aiApiKey, data.aiPrompt, prompt);
+    } else if (data.aiProvider === 'together') {
+      reply = await callTogether(data.aiApiKey, data.aiPrompt, prompt);
+    }
+
+    await sock.sendMessage(from, { text: reply || 'Erro ao obter resposta da IA.' });
+    io.emit('bot_reply', { to: from, text: reply });
+  } catch (err) {
+    await sock.sendMessage(from, { text: 'Erro na IA: ' + err.message });
+  }
+}
+
+async function callOpenAI(apiKey, model, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://api.openai.com/v1/chat/completions', {
+    model: model || 'gpt-3.5-turbo',
+    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+    max_tokens: 500,
+  }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
+  return res.data.choices[0].message.content;
+}
+
+async function callGemini(apiKey, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+    contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+  });
+  return res.data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sem resposta';
+}
+
+async function callMiMo(apiKey, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://api.siliconflow.cn/v1/chat/completions', {
+    model: 'Qwen/MiMo-7B-RL',
+    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+    max_tokens: 500,
+  }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
+  return res.data.choices[0].message.content;
+}
+
+async function callDeepSeek(apiKey, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://api.deepseek.com/v1/chat/completions', {
+    model: 'deepseek-chat',
+    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+    max_tokens: 500,
+  }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
+  return res.data.choices[0].message.content;
+}
+
+async function callClaude(apiKey, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://api.anthropic.com/v1/messages', {
+    model: 'claude-3-haiku-20240307',
+    max_tokens: 500,
+    system: systemPrompt,
+    messages: [{ role: 'user', content: userPrompt }],
+  }, { headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' } });
+  return res.data.content[0].text;
+}
+
+async function callGroq(apiKey, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
+    model: 'llama-3.3-70b-versatile',
+    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+    max_tokens: 500,
+  }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
+  return res.data.choices[0].message.content;
+}
+
+async function callTogether(apiKey, systemPrompt, userPrompt) {
+  const axios = require('axios');
+  const res = await axios.post('https://api.together.xyz/v1/chat/completions', {
+    model: 'meta-llama/Meta-Llama-3-8B-Instruct-Turbo',
+    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+    max_tokens: 500,
+  }, { headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' } });
+  return res.data.choices[0].message.content;
 }
 
 // --- API Routes ---
@@ -191,6 +306,84 @@ app.post('/autoreplies/delete', (req, res) => { const data = loadData(); delete 
 app.get('/groups', async (req, res) => { if (!sock) return res.json([]); try { const groups = await sock.groupFetchAllParticipating(); res.json(Object.entries(groups).map(([id, g]) => ({ id, name: g.subject, participants: g.participants.length }))); } catch (e) { res.json([]); } });
 app.get('/groupsettings', (req, res) => res.json(loadData().groupSettings || {}));
 app.post('/groupsettings', (req, res) => { const data = loadData(); data.groupSettings = { ...data.groupSettings, ...req.body }; saveData(data); res.json({ success: true }); });
+
+// --- Bulk Import/Export ---
+app.get('/autoreplies/export', (req, res) => {
+  const data = loadData();
+  const ars = data.autoReplies || {};
+  const text = Object.entries(ars).map(([k, v]) => `${k}|${v}`).join('\n');
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Disposition', 'attachment; filename="auto-replies.txt"');
+  res.send(text || 'Nenhum auto-reply configurado');
+});
+
+app.post('/autoreplies/import', (req, res) => {
+  const { text, mode } = req.body; // mode: 'append' or 'replace'
+  if (!text) return res.status(400).json({ success: false, error: 'Texto vazio' });
+  const data = loadData();
+  const lines = text.split('\n').filter(l => l.trim());
+  let added = 0;
+  for (const line of lines) {
+    const parts = line.split('|');
+    if (parts.length >= 2) {
+      const trigger = parts[0].trim().toLowerCase();
+      const response = parts.slice(1).join('|').trim();
+      if (trigger && response) {
+        if (mode === 'replace') data.autoReplies = data.autoReplies || {};
+        data.autoReplies[trigger] = response;
+        added++;
+      }
+    }
+  }
+  saveData(data);
+  res.json({ success: true, added });
+});
+
+app.get('/commands/export', (req, res) => {
+  const data = loadData();
+  const cmds = data.commands || {};
+  const text = Object.entries(cmds).map(([k, v]) => `${k}|${v.response}|${v.description || ''}`).join('\n');
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Disposition', 'attachment; filename="commands.txt"');
+  res.send(text || 'Nenhum comando configurado');
+});
+
+app.post('/commands/import', (req, res) => {
+  const { text, mode } = req.body;
+  if (!text) return res.status(400).json({ success: false, error: 'Texto vazio' });
+  const data = loadData();
+  const lines = text.split('\n').filter(l => l.trim());
+  let added = 0;
+  for (const line of lines) {
+    const parts = line.split('|');
+    if (parts.length >= 2) {
+      const name = parts[0].trim().toLowerCase();
+      const response = parts[1].trim();
+      const description = parts[2]?.trim() || '';
+      if (name && response) {
+        if (mode === 'replace') data.commands = data.commands || {};
+        data.commands[name] = { response, enabled: true, description };
+        added++;
+      }
+    }
+  }
+  saveData(data);
+  res.json({ success: true, added });
+});
+
+app.post('/autoreplies/clear', (req, res) => {
+  const data = loadData();
+  data.autoReplies = {};
+  saveData(data);
+  res.json({ success: true });
+});
+
+app.post('/commands/clear', (req, res) => {
+  const data = loadData();
+  data.commands = {};
+  saveData(data);
+  res.json({ success: true });
+});
 
 app.get('/ngrok', (req, res) => res.json({ url: ngrokUrl }));
 app.post('/ngrok/start', async (req, res) => {
