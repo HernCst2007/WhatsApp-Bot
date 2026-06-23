@@ -33,8 +33,9 @@ fi
 # Verificar localtunnel
 if [ "$USE_TUNNEL" = true ]; then
   if [ ! -d "node_modules/localtunnel" ]; then
-    echo "Instalando localtunnel..."
+    echo "Instalando localtunnel (primeira vez)..."
     npm install localtunnel --save --no-bin-links
+    echo "localtunnel instalado!"
   fi
 fi
 
