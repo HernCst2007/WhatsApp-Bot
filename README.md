@@ -7,7 +7,7 @@ Bot para WhatsApp multiplataforma compatível com termux, painel web de gerencia
 - [Git](https://git-scm.com/)
 - WhatsApp instalado no celular
 
-> Node.js e ngrok sao instalados automaticamente pelo script de setup.
+> Node.js e dependencias sao instalados automaticamente pelo script de setup.
 
 ## Instalacao
 
@@ -15,32 +15,32 @@ Bot para WhatsApp multiplataforma compatível com termux, painel web de gerencia
 
 **Termux (Android):**
 ```bash
-git clone https://github.com/HernCst2007/WhatsApp-Bot.git /sdcard/WhatsApp-Bot
-cd /sdcard/WhatsApp-Bot
+git clone https://github.com/HernCst2007/WhatsApp-Bot.git
+cd WhatsApp-Bot
 bash setup.sh
 ```
 
 **Windows:**
 ```cmd
-git clone https://github.com/HernCst2007/WhatsApp-Bot.git C:\WhatsApp-Bot
-cd C:\WhatsApp-Bot
+git clone https://github.com/HernCst2007/WhatsApp-Bot.git
+cd WhatsApp-Bot
 setup.bat
 ```
 
 O setup instala automaticamente:
 - Node.js (v18+)
 - Dependencias do projeto
-- Binario ngrok (para acesso externo)
+- localtunnel (para acesso externo)
 
 ### Gerenciador Termux
 
 ```bash
-bash boot/bot-start.sh start         # Iniciar
-bash boot/bot-start.sh start-ngrok   # Iniciar com ngrok
-bash boot/bot-start.sh stop          # Parar
-bash boot/bot-start.sh restart       # Reiniciar
-bash boot/bot-start.sh status        # Ver status
-bash boot/bot-start.sh ip            # Mostrar IP
+bash boot/bot-start.sh start           # Iniciar
+bash boot/bot-start.sh start-tunnel    # Iniciar com tunnel
+bash boot/bot-start.sh stop            # Parar
+bash boot/bot-start.sh restart         # Reiniciar
+bash boot/bot-start.sh status          # Ver status
+bash boot/bot-start.sh ip              # Mostrar IP
 ```
 
 ### Auto-Start no Boot (Termux)
@@ -201,11 +201,6 @@ WhatsApp-Bot/
 ├── boot/
 │   ├── 00-whatsapp-bot.sh  # Auto-start no boot
 │   └── bot-start.sh        # Gerenciador (Termux)
-├── ngrok-tool/
-│   ├── ngrok               # Binario ngrok (Linux ARM64)
-│   ├── windows/
-│   │   └── ngrok.exe       # Binario ngrok (Windows AMD64)
-│   └── install.sh          # Configuracao do token
 └── server/
     ├── server.js           # Servidor + Bot
     ├── agents/
@@ -218,54 +213,40 @@ WhatsApp-Bot/
         └── index.html      # Painel web
 ```
 
-## Acesso Externo (Ngrok)
+## Acesso Externo (Tunnel)
 
-Ngrok esta incluso no projeto - sem necessidade de instalacao externa.
+O projeto usa [localtunnel](https://github.com/localtunnel/localtunnel) para acesso externo - sem necessidade de conta ou instalacao adicional.
 
-### Configurar Token (obrigatorio para uso online)
-
-1. Crie conta em https://dashboard.ngrok.com/signup
-2. Copie o token em https://dashboard.ngrok.com/get-started/your-authtoken
-3. Execute:
-   ```bash
-   bash ngrok-tool/install.sh
-   # Siga as instrucoes para configurar o token
-   ```
-
-### Iniciar com Ngrok
+### Iniciar com Tunnel
 
 **Termux:**
 ```bash
-bash start.sh --ngrok
+bash start.sh --tunnel
 ```
 
 **Windows:**
 ```cmd
-start.bat --ngrok
+start.bat --tunnel
 ```
 
 **Gerenciador Termux:**
 ```bash
-bash boot/bot-start.sh start-ngrok
+bash boot/bot-start.sh start-tunnel
 ```
 
 **Gerenciador Windows:**
 ```cmd
-bot.bat start-ngrok
+bot.bat start-tunnel
 ```
 
-**Manual:**
-```bash
-./ngrok-tool/ngrok http 3000
-```
-
-Acesse o painel ngrok em http://localhost:4040 para ver as URLs publicas.
+O tunnel gera uma URL publica automaticamente (ex: `https://xyz.loca.lt`).
 
 ## Tecnologias
 
 - **Backend**: Node.js, Express, Socket.IO
 - **WhatsApp**: Baileys
 - **Painel Web**: HTML, CSS, JavaScript
+- **Tunnel**: localtunnel
 - **IA**: OpenAI, Gemini, MiMo, DeepSeek, Claude, Groq, Together, NVIDIA NIM
 - **Agentes**: Sistema inspirado no OpenCode com tool calling
 

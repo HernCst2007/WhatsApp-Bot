@@ -1,14 +1,13 @@
 #!/bin/bash
 # WhatsApp Bot - Inicio rapido (Termux)
-# Uso: bash start.sh [--ngrok]
+# Uso: bash start.sh [--tunnel]
 
 SCRIPT_DIR="$(dirname "$0")"
-NGROK_SRC="$SCRIPT_DIR/ngrok-tool/ngrok"
-USE_NGROK=false
+USE_TUNNEL=false
 
 for arg in "$@"; do
   case "$arg" in
-    --ngrok) USE_NGROK=true ;;
+    --tunnel|--ngrok) USE_TUNNEL=true ;;
   esac
 done
 
@@ -28,20 +27,14 @@ fi
 # Verificar dependencias
 if [ ! -d "node_modules" ]; then
   echo "Instalando dependencias..."
-  npm install
+  npm install --no-bin-links
 fi
 
-# Preparar ngrok (copiar para local com permissao)
-NGROK_AVAILABLE=false
-if [ "$USE_NGROK" = true ]; then
-  if [ -f "$NGROK_SRC" ]; then
-    NGROK_BIN="$HOME/.local/bin/ngrok"
-    mkdir -p "$HOME/.local/bin"
-    cp "$NGROK_SRC" "$NGROK_BIN"
-    chmod +x "$NGROK_BIN"
-    NGROK_AVAILABLE=true
-  else
-    echo "[AVISO] Binario ngrok nao encontrado em ngrok-tool/"
+# Verificar localtunnel
+if [ "$USE_TUNNEL" = true ]; then
+  if [ ! -d "node_modules/localtunnel" ]; then
+    echo "Instalando localtunnel..."
+    npm install localtunnel --save --no-bin-links
   fi
 fi
 
@@ -52,31 +45,25 @@ echo ""
 IP=$(hostname -I 2>/dev/null | awk '{print $1}')
 echo "Local:  http://${IP}:3000"
 
-# Iniciar ngrok se solicitado
-if [ "$USE_NGROK" = true ] && [ "$NGROK_AVAILABLE" = true ]; then
-  RESOLV_CONF="$SCRIPT_DIR/ngrok-tool/etc/resolv.conf"
-  PROOT_BIN=$(command -v proot 2>/dev/null)
-  if [ -n "$PROOT_BIN" ] && [ -f "$RESOLV_CONF" ]; then
-    proot -b "$RESOLV_CONF:/etc/resolv.conf" "$NGROK_BIN" http 3000 &>/dev/null &
-  else
-    "$NGROK_BIN" http 3000 &>/dev/null &
-  fi
-  NGROK_PID=$!
-  sleep 4
-  NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels 2>/dev/null | grep -o '"public_url":"[^"]*"' | head -1 | cut -d'"' -f4)
-  if [ -n "$NGROK_URL" ]; then
-    echo "Ngrok:  ${NGROK_URL}"
-  else
-    echo "[AVISO] Ngrok iniciado mas URL nao disponivel"
-    echo "        Verifique http://127.0.0.1:4040"
-  fi
+# Iniciar localtunnel se solicitado
+if [ "$USE_TUNNEL" = true ]; then
+  node -e "
+    const lt = require('localtunnel');
+    (async () => {
+      const tunnel = await lt({ port: 3000 });
+      console.log('Tunnel:  ' + tunnel.url);
+      tunnel.on('close', () => process.exit());
+    })();
+  " &
+  TUNNEL_PID=$!
+  sleep 3
 fi
 echo ""
 
-# Capturar Ctrl+C para limpar ngrok
+# Capturar Ctrl+C para limpar tunnel
 cleanup() {
-  if [ -n "$NGROK_PID" ]; then
-    kill $NGROK_PID 2>/dev/null
+  if [ -n "$TUNNEL_PID" ]; then
+    kill $TUNNEL_PID 2>/dev/null
   fi
   exit 0
 }
