@@ -217,9 +217,7 @@ WhatsApp-Bot/
 
 ```bash
 ngrok http 3000
-```
 
-Ou pelo painel web em **Ativar Ngrok**.
 
 ## Tecnologias
 
