@@ -83,15 +83,15 @@ else
   echo "Dependencias ja instaladas [OK]"
 fi
 
-# --- Verificar localtunnel ---
+# --- Verificar cloudflared ---
 echo ""
 echo "[3/3] Verificando tunnel..."
-if [ -d "node_modules/localtunnel" ]; then
-  echo "localtunnel [OK]"
+if command -v cloudflared &> /dev/null; then
+  echo "cloudflared [OK]"
 else
-  echo "Instalando localtunnel..."
-  npm install localtunnel --save --no-bin-links
-  echo "localtunnel instalado!"
+  echo "Instalando cloudflared..."
+  pkg install -y cloudflared
+  echo "cloudflared instalado!"
 fi
 
 # --- Resumo ---

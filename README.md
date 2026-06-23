@@ -30,7 +30,7 @@ setup.bat
 O setup instala automaticamente:
 - Node.js (v18+)
 - Dependencias do projeto
-- localtunnel (para acesso externo)
+- cloudflared (para acesso externo)
 
 ### Gerenciador Termux
 
@@ -215,7 +215,7 @@ WhatsApp-Bot/
 
 ## Acesso Externo (Tunnel)
 
-O projeto usa [localtunnel](https://github.com/localtunnel/localtunnel) para acesso externo - sem necessidade de conta ou instalacao adicional.
+O projeto usa [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) para acesso externo - rapido, estavel e sem pagina de aviso.
 
 ### Iniciar com Tunnel
 
@@ -239,14 +239,14 @@ bash boot/bot-start.sh start-tunnel
 bot.bat start-tunnel
 ```
 
-O tunnel gera uma URL publica automaticamente (ex: `https://xyz.loca.lt`).
+O tunnel gera uma URL publica automaticamente (ex: `https://xxx.trycloudflare.com`).
 
 ## Tecnologias
 
 - **Backend**: Node.js, Express, Socket.IO
 - **WhatsApp**: Baileys
 - **Painel Web**: HTML, CSS, JavaScript
-- **Tunnel**: localtunnel
+- **Tunnel**: cloudflared
 - **IA**: OpenAI, Gemini, MiMo, DeepSeek, Claude, Groq, Together, NVIDIA NIM
 - **Agentes**: Sistema inspirado no OpenCode com tool calling
 

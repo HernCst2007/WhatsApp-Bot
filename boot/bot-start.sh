@@ -9,27 +9,18 @@ get_ip() {
 
 kill_all() {
   pkill -f "node server.js" 2>/dev/null
-  pkill -f "localtunnel" 2>/dev/null
-  pkill -f "lt.js" 2>/dev/null
+  pkill -f "cloudflared" 2>/dev/null
   sleep 1
 }
 
 start_tunnel() {
-  cd "$PROJDIR/server"
-  if [ ! -d "node_modules/localtunnel" ]; then
-    echo "Instalando localtunnel..."
-    npm install localtunnel --save --no-bin-links
+  if ! command -v cloudflared &> /dev/null; then
+    echo "Instalando cloudflared..."
+    pkg install -y cloudflared
   fi
-  node -e "
-    const lt = require('localtunnel');
-    (async () => {
-      const tunnel = await lt({ port: 3000 });
-      console.log('Tunnel: ' + tunnel.url);
-      tunnel.on('close', () => process.exit());
-    })();
-  " &
+  cloudflared tunnel --url http://localhost:3000 &
   TUNNEL_PID=$!
-  sleep 3
+  sleep 5
 }
 
 case "$1" in
@@ -74,7 +65,7 @@ case "$1" in
     if pgrep -f "node server.js" > /dev/null; then
       echo "Bot rodando!"
       echo "http://$(get_ip):3000"
-      if pgrep -f "lt.js" > /dev/null; then
+      if pgrep -f "cloudflared" > /dev/null; then
         echo "Tunnel: rodando"
       fi
     else

@@ -7,7 +7,7 @@ USE_TUNNEL=false
 
 for arg in "$@"; do
   case "$arg" in
-    --tunnel|--ngrok) USE_TUNNEL=true ;;
+    --tunnel) USE_TUNNEL=true ;;
   esac
 done
 
@@ -30,12 +30,11 @@ if [ ! -d "node_modules" ]; then
   npm install --no-bin-links
 fi
 
-# Verificar localtunnel
+# Verificar cloudflared
 if [ "$USE_TUNNEL" = true ]; then
-  if [ ! -d "node_modules/localtunnel" ]; then
-    echo "Instalando localtunnel (primeira vez)..."
-    npm install localtunnel --save --no-bin-links
-    echo "localtunnel instalado!"
+  if ! command -v cloudflared &> /dev/null; then
+    echo "cloudflared nao encontrado. Instalando..."
+    pkg install -y cloudflared
   fi
 fi
 
@@ -46,18 +45,11 @@ echo ""
 IP=$(hostname -I 2>/dev/null | awk '{print $1}')
 echo "Local:  http://${IP}:3000"
 
-# Iniciar localtunnel se solicitado
+# Iniciar cloudflared se solicitado
 if [ "$USE_TUNNEL" = true ]; then
-  node -e "
-    const lt = require('localtunnel');
-    (async () => {
-      const tunnel = await lt({ port: 3000 });
-      console.log('Tunnel:  ' + tunnel.url);
-      tunnel.on('close', () => process.exit());
-    })();
-  " &
+  cloudflared tunnel --url http://localhost:3000 &
   TUNNEL_PID=$!
-  sleep 3
+  sleep 5
 fi
 echo ""
 

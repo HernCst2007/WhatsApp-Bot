@@ -8,7 +8,7 @@ sleep 15
 
 # Matar processos antigos
 pkill -f "node server.js" 2>/dev/null
-pkill -f "lt.js" 2>/dev/null
+pkill -f "cloudflared" 2>/dev/null
 sleep 1
 
 # Verificar dependencias
@@ -22,18 +22,11 @@ setsid node server.js < /dev/null > /dev/null 2>&1 &
 
 # Iniciar tunnel se configurado
 if [ "$START_TUNNEL" = true ]; then
-  if [ ! -d "node_modules/localtunnel" ]; then
-    npm install localtunnel --save --no-bin-links
+  if ! command -v cloudflared &> /dev/null; then
+    pkg install -y cloudflared
   fi
-  node -e "
-    const lt = require('localtunnel');
-    (async () => {
-      const tunnel = await lt({ port: 3000 });
-      console.log('Tunnel: ' + tunnel.url);
-      tunnel.on('close', () => process.exit());
-    })();
-  " &
-  sleep 3
+  cloudflared tunnel --url http://localhost:3000 &
+  sleep 5
 fi
 
 # Log
