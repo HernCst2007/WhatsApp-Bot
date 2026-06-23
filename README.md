@@ -4,45 +4,43 @@ Bot para WhatsApp multiplataforma compatível com termux, painel web de gerencia
 
 ## Pre-requisitos
 
-- [Node.js](https://nodejs.org/) (v18+)
 - [Git](https://git-scm.com/)
 - WhatsApp instalado no celular
 
+> Node.js e ngrok sao instalados automaticamente pelo script de setup.
+
 ## Instalacao
 
-### Windows
+### Instalacao Rapida
 
+**Termux (Android):**
 ```bash
-git clone https://github.com/HernCst2007/WhatsApp-Bot.git
-cd WhatsApp-Bot
-start.bat
+git clone https://github.com/HernCst2007/WhatsApp-Bot.git /sdcard/WhatsApp-Bot
+cd /sdcard/WhatsApp-Bot
+bash setup.sh
 ```
 
-Ou use o gerenciador:
-
-```bash
-bot.bat start     # Iniciar
-bot.bat stop      # Parar
-bot.bat status    # Ver status
-bot.bat install   # Instalar dependencias
+**Windows:**
+```cmd
+git clone https://github.com/HernCst2007/WhatsApp-Bot.git C:\WhatsApp-Bot
+cd C:\WhatsApp-Bot
+setup.bat
 ```
 
-### Termux (Android)
-
-```bash
-git clone https://github.com/HernCst2007/WhatsApp-Bot.git
-cd WhatsApp-Bot
-bash start.sh
-```
+O setup instala automaticamente:
+- Node.js (v18+)
+- Dependencias do projeto
+- Binario ngrok (para acesso externo)
 
 ### Gerenciador Termux
 
 ```bash
-bash boot/bot-start.sh start
-bash boot/bot-start.sh stop
-bash boot/bot-start.sh restart
-bash boot/bot-start.sh status
-bash boot/bot-start.sh ip
+bash boot/bot-start.sh start         # Iniciar
+bash boot/bot-start.sh start-ngrok   # Iniciar com ngrok
+bash boot/bot-start.sh stop          # Parar
+bash boot/bot-start.sh restart       # Reiniciar
+bash boot/bot-start.sh status        # Ver status
+bash boot/bot-start.sh ip            # Mostrar IP
 ```
 
 ### Auto-Start no Boot (Termux)
@@ -195,12 +193,19 @@ Importe pelo painel web em **Wordlist > Importar**.
 ```
 WhatsApp-Bot/
 ├── README.md
+├── setup.sh                # Setup completo (Termux/Linux)
+├── setup.bat               # Setup completo (Windows)
 ├── start.bat               # Inicio rapido (Windows)
 ├── start.sh                # Inicio rapido (Termux)
 ├── bot.bat                 # Gerenciador (Windows)
 ├── boot/
 │   ├── 00-whatsapp-bot.sh  # Auto-start no boot
 │   └── bot-start.sh        # Gerenciador (Termux)
+├── ngrok-tool/
+│   ├── ngrok               # Binario ngrok (Linux ARM64)
+│   ├── windows/
+│   │   └── ngrok.exe       # Binario ngrok (Windows AMD64)
+│   └── install.sh          # Configuracao do token
 └── server/
     ├── server.js           # Servidor + Bot
     ├── agents/
@@ -215,9 +220,46 @@ WhatsApp-Bot/
 
 ## Acesso Externo (Ngrok)
 
-```bash
-ngrok http 3000
+Ngrok esta incluso no projeto - sem necessidade de instalacao externa.
 
+### Configurar Token (obrigatorio para uso online)
+
+1. Crie conta em https://dashboard.ngrok.com/signup
+2. Copie o token em https://dashboard.ngrok.com/get-started/your-authtoken
+3. Execute:
+   ```bash
+   bash ngrok-tool/install.sh
+   # Siga as instrucoes para configurar o token
+   ```
+
+### Iniciar com Ngrok
+
+**Termux:**
+```bash
+bash start.sh --ngrok
+```
+
+**Windows:**
+```cmd
+start.bat --ngrok
+```
+
+**Gerenciador Termux:**
+```bash
+bash boot/bot-start.sh start-ngrok
+```
+
+**Gerenciador Windows:**
+```cmd
+bot.bat start-ngrok
+```
+
+**Manual:**
+```bash
+./ngrok-tool/ngrok http 3000
+```
+
+Acesse o painel ngrok em http://localhost:4040 para ver as URLs publicas.
 
 ## Tecnologias
 

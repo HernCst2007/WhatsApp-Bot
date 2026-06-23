@@ -1,13 +1,23 @@
 #!/bin/bash
 # WhatsApp Bot - Inicio rapido (Termux)
-# Uso: bash start.sh
+# Uso: bash start.sh [--ngrok]
+
+SCRIPT_DIR="$(dirname "$0")"
+NGROK_BIN="$SCRIPT_DIR/ngrok-tool/ngrok"
+USE_NGROK=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --ngrok) USE_NGROK=true ;;
+  esac
+done
 
 echo "============================="
 echo "  WhatsApp Bot - Iniciando"
 echo "============================"
 echo ""
 
-cd "$(dirname "$0")/server"
+cd "$SCRIPT_DIR/server"
 
 # Verificar Node.js
 if ! command -v node &> /dev/null; then
@@ -21,22 +31,11 @@ if [ ! -d "node_modules" ]; then
   npm install
 fi
 
-# Verificar ngrok
-NGROK_AVAILABLE=false
-if command -v ngrok &> /dev/null; then
-  echo "Ngrok disponivel"
+# Verificar ngrok local
+if [ -x "$NGROK_BIN" ]; then
   NGROK_AVAILABLE=true
 else
-  echo "Ngrok nao instalado"
-  if [ -d "$(dirname "$0")/ngrok-tool" ]; then
-    cd "$(dirname "$0")/ngrok-tool"
-    bash install.sh
-    cd "$(dirname "$0")/server"
-    if command -v ngrok &> /dev/null; then
-      echo "Ngrok instalado com sucesso!"
-      NGROK_AVAILABLE=true
-    fi
-  fi
+  NGROK_AVAILABLE=false
 fi
 
 echo ""
@@ -44,22 +43,35 @@ echo "Iniciando servidor..."
 echo ""
 
 IP=$(hostname -I 2>/dev/null | awk '{print $1}')
-echo "http://${IP}:3000"
-echo ""
+echo "Local:  http://${IP}:3000"
 
-if [ "$NGROK_AVAILABLE" = true ]; then
-  ngrok http 3000 &>/dev/null &
-  NGROK_PID=$!
-  sleep 3
-  NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels 2>/dev/null | grep -o '"public_url":"[^"]*"' | head -1 | cut -d'"' -f4)
-  if [ -n "$NGROK_URL" ]; then
-    echo "Ngrok: ${NGROK_URL}"
-    echo ""
+# Iniciar ngrok se solicitado
+if [ "$USE_NGROK" = true ]; then
+  if [ "$NGROK_AVAILABLE" = true ]; then
+    "$NGROK_BIN" http 3000 &>/dev/null &
+    NGROK_PID=$!
+    sleep 3
+    NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels 2>/dev/null | grep -o '"public_url":"[^"]*"' | head -1 | cut -d'"' -f4)
+    if [ -n "$NGROK_URL" ]; then
+      echo "Ngrok:  ${NGROK_URL}"
+    else
+      echo "[AVISO] Ngrok iniciado mas URL nao disponivel. Verifique http://127.0.0.1:4040"
+    fi
+  else
+    echo "[AVISO] --ngrok usado mas binario ngrok nao encontrado em ngrok-tool/"
   fi
 fi
+echo ""
+
+# Capturar Ctrl+C para limpar ngrok
+cleanup() {
+  if [ -n "$NGROK_PID" ]; then
+    kill $NGROK_PID 2>/dev/null
+  fi
+  exit 0
+}
+trap cleanup INT TERM
 
 node server.js
 
-if [ -n "$NGROK_PID" ]; then
-  kill $NGROK_PID 2>/dev/null
-fi
+cleanup
