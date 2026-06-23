@@ -86,8 +86,14 @@ fi
 # --- Verificar ngrok ---
 echo ""
 echo "[3/4] Verificando ngrok..."
-NGROK_BIN="$SCRIPT_DIR/ngrok-tool/ngrok"
-if [ -x "$NGROK_BIN" ]; then
+NGROK_SRC="$SCRIPT_DIR/ngrok-tool/ngrok"
+NGROK_BIN="$HOME/.local/bin/ngrok"
+
+# Copiar binario para local com permissao (SD card usa FAT)
+if [ -f "$NGROK_SRC" ]; then
+  mkdir -p "$HOME/.local/bin"
+  cp "$NGROK_SRC" "$NGROK_BIN"
+  chmod +x "$NGROK_BIN"
   echo "ngrok $($NGROK_BIN version) [OK]"
 else
   echo "ngrok nao encontrado. Baixando..."
@@ -103,14 +109,35 @@ else
 
   curl -sL "https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-${NGROK_ARCH}.zip" -o "$SCRIPT_DIR/ngrok-tool/ngrok.zip"
   unzip -qo "$SCRIPT_DIR/ngrok-tool/ngrok.zip" -d "$SCRIPT_DIR/ngrok-tool/"
-  chmod +x "$NGROK_BIN"
   rm -f "$SCRIPT_DIR/ngrok-tool/ngrok.zip"
+
+  # Copiar para local com permissao
+  mkdir -p "$HOME/.local/bin"
+  cp "$NGROK_SRC" "$NGROK_BIN"
+  chmod +x "$NGROK_BIN"
   echo "ngrok baixado com sucesso!"
 fi
 
-# --- Verificar token ngrok ---
+# Configurar resolv.conf para proot (Android nao tem /etc/resolv.conf)
 echo ""
-echo "[4/4] Configuracao do ngrok..."
+echo "[4/4] Configuracao..."
+mkdir -p "$SCRIPT_DIR/ngrok-tool/etc"
+echo "nameserver 8.8.8.8" > "$SCRIPT_DIR/ngrok-tool/etc/resolv.conf"
+echo "nameserver 8.8.4.4" >> "$SCRIPT_DIR/ngrok-tool/etc/resolv.conf"
+
+# Verificar proot
+if ! command -v proot &> /dev/null; then
+  echo "proot nao encontrado. Instalando..."
+  pkg install -y proot
+fi
+
+if command -v proot &> /dev/null; then
+  echo "proot [OK]"
+else
+  echo "[AVISO] proot nao disponivel - ngrok pode nao funcionar"
+fi
+
+# Verificar token ngrok
 AUTHTOKEN_FILE="$HOME/.config/ngrok/ngrok.yml"
 if [ -f "$AUTHTOKEN_FILE" ] && grep -q "authtoken:" "$AUTHTOKEN_FILE" 2>/dev/null; then
   echo "Token ngrok configurado [OK]"
