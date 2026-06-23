@@ -47,9 +47,28 @@ echo "Local:  http://${IP}:3000"
 
 # Iniciar cloudflared se solicitado
 if [ "$USE_TUNNEL" = true ]; then
-  cloudflared tunnel --url http://localhost:3000 &
+  TUNNEL_LOG=$(mktemp)
+  cloudflared tunnel --url http://localhost:3000 > "$TUNNEL_LOG" 2>&1 &
   TUNNEL_PID=$!
-  sleep 5
+  TUNNEL_URL=""
+  for i in $(seq 1 15); do
+    sleep 1
+    TUNNEL_URL=$(grep -oP 'https://[a-z0-9-]+\.trycloudflare\.com' "$TUNNEL_LOG" 2>/dev/null | head -1)
+    if [ -n "$TUNNEL_URL" ]; then break; fi
+  done
+  rm -f "$TUNNEL_LOG"
+  echo ""
+  if [ -n "$TUNNEL_URL" ]; then
+    echo "============================="
+    echo "  Tunnel Externo"
+    echo "============================="
+    echo ""
+    echo "Link: $TUNNEL_URL"
+    echo ""
+  else
+    echo "[AVISO] Tunnel iniciado, mas o link ainda nao apareceu."
+    echo "        Aguarde alguns segundos e verifique o terminal."
+  fi
 fi
 echo ""
 
